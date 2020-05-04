@@ -3,12 +3,10 @@ const app = express();
 const cors = require("cors");
 
 // middleware
-
 app.use(express.json());
 app.use(cors());
 
 // Routes
-
 app.use('/auth', require('./routes/auth'));
 app.use('/dashboard', require('./routes/dashboard'));
 
