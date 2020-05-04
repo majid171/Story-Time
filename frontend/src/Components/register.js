@@ -79,6 +79,7 @@ const Register = ({ setAuth }) => {
 
                 <button className="btn btn-success btn-block">Submit</button>
             </form>
+            <Link to='/login'>Already have an account?</Link>
         </Fragment>
     );
 }
