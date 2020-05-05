@@ -28,7 +28,8 @@
     align-items: center;
     border-color: #B8B8B8;
     border-width: 10px;
-    /* max-height: 377px; */
+    max-height: 377px;
+    max-width: 570px;
 }
 
 .formTitle{

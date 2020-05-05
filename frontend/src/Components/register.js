@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
 import { TextField } from '@material-ui/core/';
-import { toast } from 'react-toastify';
 import styles from '../Styles/register.module.css';
 import Header from './header';
 
@@ -10,7 +9,6 @@ const textFieldStyle = {
 }
 
 const nameTextFieldStyle = {
-    // width: '70%',
     margin: 5,
 }
 
@@ -20,12 +18,20 @@ const Register = ({ setAuth }) => {
     const [last_name, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
+    const [error, setError] = useState("");
 
     const validateForm = () => {
         return email !== "" && password !== ""
             && first_name !== "" && last_name !== "";
     }
 
+    const clearForm = () =>{
+        setPassword("");
+        setEmail("");
+        setFirstName("");
+        setLastName("");
+    }
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
@@ -41,8 +47,6 @@ const Register = ({ setAuth }) => {
                 body: JSON.stringify(body)
             });
 
-            // console.log(response)
-
             const parsedResponse = await response.json();
 
             if (parsedResponse.token) {
@@ -50,6 +54,9 @@ const Register = ({ setAuth }) => {
                 setAuth(true);
             }
             else {
+                setShowAlert(true);
+                setError(parsedResponse);
+                clearForm();
                 setAuth(false);
             }
         } catch (err) {
@@ -72,6 +79,7 @@ const Register = ({ setAuth }) => {
                             style={nameTextFieldStyle}
                             value={first_name}
                             onChange={e => setFirstName(e.target.value)}
+                            
                         />
                         <TextField
                             required
@@ -102,6 +110,9 @@ const Register = ({ setAuth }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    <div className={styles.error} className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
+                        {error}
+                    </div>
                     <span>
                         Already have an account?
                         <a href="http://localhost:3000/login"> Log In</a>
