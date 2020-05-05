@@ -64,6 +64,13 @@ router.post('/login', validInfo, async(req, res) =>{
     }
 });
 
+router.get('/logout', (req, res, next) =>{
+    res.clearCookie('token');
+    res.json({
+        message: 'Logged Out'
+    });
+});
+
 router.get('/is-verify', authorization, async(req, res) =>{
     try {
         res.json(true);

@@ -12,9 +12,15 @@ const Login = ({ setAuth }) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showAlert, setShowAlert] = useState(false);
+    const [error, setError] = useState("");
 
     const validateForm = () =>{
         return email !== "" && password !== "";
+    }
+
+    const clearPassword = () =>{
+        setPassword("");
     }
 
     const onSubmitForm = async (e) => {
@@ -23,7 +29,6 @@ const Login = ({ setAuth }) => {
         try {
 
             const body = { email, password }
-            console.log(body);
             const response = await fetch('http://localhost:5000/auth/login', {
                 method: 'POST',
                 headers: {
@@ -38,10 +43,11 @@ const Login = ({ setAuth }) => {
                 setAuth(true);
             }
             else {
+                setShowAlert(true);
+                setError(parsedResponse);
+                clearPassword();
                 setAuth(false);
             }
-
-
         } catch (err) {
             console.error(err.message);
         }
@@ -75,6 +81,9 @@ const Login = ({ setAuth }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
+                    <div className={styles.error} className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
+                        {error}
+                    </div>
                     <a href="#" className={styles.forgot}>Forgot Password?</a>
                     <span className={styles.registerText}>
                         Don't have an account?
