@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.outerContainer{
+    display: flex;
+    position: absolute;
+    background-color: #F0F0F0;
+    width: 100vw;
+    top: 60px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.formContainer{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    height: 42%;
+    width: 60%;
+    background-color: white;
+    align-items: center;
+    border-color: #B8B8B8;
+    border-width: 10px;
+    /* max-height: 377px; */
+}
+
+.formTitle{
+    padding-top: 15px;
+    font-size: 35px;
+    color: #444444;
+}

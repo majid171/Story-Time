@@ -1,17 +1,20 @@
-import React, { Fragment, useState } from 'react';
-import {Link} from 'react-router-dom'
+import React, { useState } from 'react';
+import { TextField } from '@material-ui/core';
+import styles from '../Styles/login.module.css';
+import Header from './header';
 
-const Login = ({ setAuth }) =>{
-    
-    const [inputs, setInputs] = useState({
-        email: '',
-        password: ''
-    });
+const textFieldStyle = {
+    width: '70%',
+    marginBottom: 10,
+}
 
-    const { email, password } = inputs;
+const Login = ({ setAuth }) => {
 
-    const onChange = (e) => {
-        setInputs({ ...inputs, [e.target.name]: e.target.value });
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    const validateForm = () =>{
+        return email !== "" && password !== "";
     }
 
     const onSubmitForm = async (e) => {
@@ -20,6 +23,7 @@ const Login = ({ setAuth }) =>{
         try {
 
             const body = { email, password }
+            console.log(body);
             const response = await fetch('http://localhost:5000/auth/login', {
                 method: 'POST',
                 headers: {
@@ -29,37 +33,60 @@ const Login = ({ setAuth }) =>{
             });
             const parsedResponse = await response.json();
 
-            localStorage.setItem('token', parsedResponse.token);
-            setAuth(true);
+            if (parsedResponse.token) {
+                localStorage.setItem('token', parsedResponse.token);
+                setAuth(true);
+            }
+            else {
+                console.log('nope')
+                setAuth(false);
+            }
+
+
         } catch (err) {
             console.error(err.message);
         }
     }
-    
-    return(
-        <Fragment>
-            <h1 className="mt-5 text-center">Login</h1>
-            <form onSubmit={onSubmitForm}>
-                <input
-                    type="text"
-                    name="email"
-                    value={email}
-                    placeholder="Email"
-                    onChange={e => onChange(e)}
-                    className="form-control my-3"
-                />
-                <input
-                    type="password"
-                    name="password"
-                    value={password}
-                    placeholder="Password"
-                    onChange={e => onChange(e)}
-                    className="form-control my-3"
-                />
-                <button className="btn btn-success btn-block">Submit</button>
-            </form>
-            <Link to="/register">Register</Link>
-        </Fragment>
+
+    return (
+        <div className={styles.container}>
+            <div>
+                <Header></Header>
+            </div>
+            <div className={styles.outerContainer}>
+                <form className={styles.formContainer} onSubmit={onSubmitForm}>
+                    <p className={styles.formTitle}>StoryTime</p>
+                    <p className={styles.welcome}>Welcome Back!</p>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Email"
+                        variant="outlined"
+                        style={textFieldStyle}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Password"
+                        type="password"
+                        variant="outlined"
+                        style={textFieldStyle}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <a href="#" className={styles.forgot}>Forgot Password?</a>
+                    <span className={styles.registerText}>
+                        Don't have an account?
+                        <a href="http://localhost:3000/register" > Sign Up</a>
+                    </span>
+                    
+                    <hr></hr>
+                    <button disabled={!validateForm()} className={styles.loginButton}>Log in</button>
+                </form>
+            </div>
+        </div>
     );
 }
 
