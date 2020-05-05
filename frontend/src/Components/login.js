@@ -38,7 +38,6 @@ const Login = ({ setAuth }) => {
                 setAuth(true);
             }
             else {
-                console.log('nope')
                 setAuth(false);
             }
 

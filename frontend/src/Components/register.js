@@ -16,45 +16,46 @@ const nameTextFieldStyle = {
 
 const Register = ({ setAuth }) => {
 
-    const [firstName, setFirstName] = useState("");
-    const [LastName, setLastName] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const validateForm = () => {
         return email !== "" && password !== ""
-            && firstName !== "" && LastName !== "";
+            && first_name !== "" && last_name !== "";
     }
 
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-
+        
         try {
+            const body = { first_name, last_name, email, password }
+            // console.log(body)
+            const response = await fetch('http://localhost:5000/auth/register', {
+                method: 'POST',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
 
-            // const body = { first_name, last_name, email, password }
-            // const response = await fetch('http://localhost:5000/auth/register', {
-            //     method: 'POST',
-            //     headers: {
-            //         "Content-type": "application/json"
-            //     },
-            //     body: JSON.stringify(body)
-            // });
-            // const parsedResponse = await response.json();
+            // console.log(response)
 
-            // if (parsedResponse.token) {
-            //     localStorage.setItem('token', parsedResponse.token);
-            //     setAuth(true);
-            // }
-            // else {
-            //     setAuth(false);
-            // }
+            const parsedResponse = await response.json();
+
+            if (parsedResponse.token) {
+                localStorage.setItem('token', parsedResponse.token);
+                setAuth(true);
+            }
+            else {
+                setAuth(false);
+            }
         } catch (err) {
             console.error(err.message);
         }
     }
-
-
 
     return (
         <div className={styles.container}>
@@ -69,8 +70,8 @@ const Register = ({ setAuth }) => {
                             label="First Name"
                             variant="outlined"
                             style={nameTextFieldStyle}
-                        // value={email}
-                        // onChange={e => setEmail(e.target.value)}
+                            value={first_name}
+                            onChange={e => setFirstName(e.target.value)}
                         />
                         <TextField
                             required
@@ -78,31 +79,34 @@ const Register = ({ setAuth }) => {
                             label="Last Name"
                             variant="outlined"
                             style={nameTextFieldStyle}
-                        // value={password}
-                        // onChange={(e) => setPassword(e.target.value)}
+                            value={last_name}
+                            onChange={(e) => setLastName(e.target.value)}
                         />
                     </div>
-                    <div>
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Email"
-                            variant="outlined"
-                            style={textFieldStyle}
-                            // value={email}
-                            // onChange={e => setEmail(e.target.value)}
-                        />
-                        <TextField
-                            required
-                            id="outlined-required"
-                            label="Password"
-                            type="password"
-                            variant="outlined"
-                            style={textFieldStyle}
-                            // value={password}
-                            // onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Email"
+                        variant="outlined"
+                        style={textFieldStyle}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                    />
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Password"
+                        type="password"
+                        variant="outlined"
+                        style={textFieldStyle}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <span>
+                        Already have an account?
+                        <a href="http://localhost:3000/login"> Log In</a>
+                    </span>
+                    <button disabled={!validateForm()} className={styles.signUpButton}>Sign Up</button>
                 </form>
             </div>
         </div>
