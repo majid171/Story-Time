@@ -22,13 +22,13 @@
     display: flex;
     position: absolute;
     flex-direction: column;
-    height: 42%;
+    height: 45%;
     width: 60%;
     background-color: white;
     align-items: center;
     border-color: #B8B8B8;
     border-width: 10px;
-    max-height: 377px;
+    max-height: 420;
     max-width: 570px;
 }
 
@@ -100,7 +100,21 @@ hr {
     width: 92%;               
     background-color:#E8E8E8;
     height: 1px;
-  }
+}
 
+.hiddenAlert{
+    display: none;
+}
 
-
+.visibleAlert{
+    width: 80%;
+    height: 30px;
+    background-color: #F31431;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-justify: center;
+    border-radius: 4px;
+    margin-top: 8px;
+}
