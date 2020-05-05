@@ -13,7 +13,7 @@ router.post("/register", validInfo, async(req, res) =>{
         const user = await pool.query("SELECT 1 FROM users WHERE user_email = $1", [email]);
 
         if(user.rows.length != 0){
-            return res.status(401).send("User already exists");
+            return res.status(401).json("User already exists");
         }
 
         const saltRound = 10;
