@@ -7,7 +7,6 @@ const authorization = require('../middleware/authorization');
 
 router.post("/register", validInfo, async(req, res) =>{
     try{
-        console.log('made it')
         const { first_name, last_name, email, password } = req.body;
         
         const user = await pool.query("SELECT 1 FROM users WHERE user_email = $1", [email]);
@@ -26,8 +25,13 @@ router.post("/register", validInfo, async(req, res) =>{
         );
 
         const token = jwtGenerator(newUser.rows[0].user_id);
-
-        res.json({token});
+        
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 60*60*1000
+        });
+        res.status(200).json("works good");
 
     }catch(err){
         console.log(err.message);
@@ -59,12 +63,7 @@ router.post('/login', validInfo, async(req, res) =>{
             secure: false,
             maxAge: 60*60*1000
         });
-        
-        // res.json({
-        //     messge: 'ok'
-        // });
         res.status(200).json("works good");
-
     }catch(err){
         console.log(err.message);
         res.status(500).send('Server Error');
