@@ -21,7 +21,7 @@ const Dashboard = ({ setAuth }) => {
             setLastName(parseRes.last_name);
             setEmail(parseRes.user_email);
             setUserID(parseRes.user_id);
-
+            
         } catch (err) {
             console.error(err.message);
         }

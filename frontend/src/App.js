@@ -18,7 +18,7 @@ function App() {
     try{
       const response = await fetch('http://localhost:5000/auth/is-verify', {
         method: "GET",
-        headers: {token: localStorage.token}
+        credentials: 'include'
       });
       
       const parseRes = await response.json();

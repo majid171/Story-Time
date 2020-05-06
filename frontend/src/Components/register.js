@@ -38,19 +38,18 @@ const Register = ({ setAuth }) => {
         
         try {
             const body = { first_name, last_name, email, password }
-            // console.log(body)
             const response = await fetch('http://localhost:5000/auth/register', {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
                 },
-                body: JSON.stringify(body)
+                credentials: 'include',
+                body: JSON.stringify(body),
             });
 
             const parsedResponse = await response.json();
 
-            if (parsedResponse.token) {
-                localStorage.setItem('token', parsedResponse.token);
+            if (response.status === 200) {
                 setAuth(true);
             }
             else {
