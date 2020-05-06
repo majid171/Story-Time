@@ -11,10 +11,11 @@ const Dashboard = ({ setAuth }) => {
         try {
             const response = await fetch("http://localhost:5000/dashboard", {
                 method: "GET",
-                headers: { token: localStorage.token }
+                credentials: 'include'
             })
 
             const parseRes = await response.json();
+            console.log(parseRes);
 
             setFirstName(parseRes.first_name);
             setLastName(parseRes.last_name);
@@ -26,10 +27,13 @@ const Dashboard = ({ setAuth }) => {
         }
     }
 
-    const logout = (e) =>{
+    const logout = async(e) =>{
         e.preventDefault();
-        localStorage.removeItem("token");
-        setAuth(false);
+
+        await fetch('http://localhost:5000/auth/logout', {
+            method: "GET",
+            credentials: 'include'
+        }).then(setAuth(false));
     }
 
     useEffect(() => {
