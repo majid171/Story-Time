@@ -10,8 +10,8 @@ const textFieldStyle = {
 
 const Login = ({ setAuth }) => {
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("majid@gmail.com");
+    const [password, setPassword] = useState("123");
     const [showAlert, setShowAlert] = useState(false);
     const [error, setError] = useState("");
 
@@ -34,12 +34,12 @@ const Login = ({ setAuth }) => {
                 headers: {
                     "Content-type": "application/json"
                 },
-                body: JSON.stringify(body)
+                credentials: 'include',
+                body: JSON.stringify(body),
+                
             });
             const parsedResponse = await response.json();
-
-            if (parsedResponse.token) {
-                localStorage.setItem('token', parsedResponse.token);
+            if (response.status === 200) {
                 setAuth(true);
             }
             else {

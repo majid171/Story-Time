@@ -53,10 +53,17 @@ router.post('/login', validInfo, async(req, res) =>{
         }
         
         const token = jwtGenerator(user.rows[0].user_id);
-
-        res.json({
-            token
+        
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 60*60*1000
         });
+        
+        // res.json({
+        //     messge: 'ok'
+        // });
+        res.status(200).json("works good");
 
     }catch(err){
         console.log(err.message);
