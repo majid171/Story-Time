@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from '../Styles/header.module.css';
-import { Navbar, Nav, Form, Button, FormControl } from 'react-bootstrap';
 
-export default function header() {
+const Header = () => {
 
     return (
         <div className={styles.container}>
@@ -11,10 +10,10 @@ export default function header() {
             </div>
             <div className={styles.buttonContainer}>
                 <div className={styles.signUpButtonContainer}>
-                    <button className={styles.signUpButton}>Sign Up</button>
+                    <a href="/register" className={styles.signUpButton}>Sign Up</a>
                 </div>
                 <div className={styles.logInButtonContainer}>
-                    <button className={styles.logInButton}>Log In</button>
+                    <a href="/login" className={styles.logInButtonContainer}>Log In</a>
                 </div>
 
             </div>
@@ -22,3 +21,5 @@ export default function header() {
     );
 
 }
+
+export default Header;

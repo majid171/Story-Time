@@ -7,3 +7,18 @@ CREATE TABLE users(
     user_email varchar(255) NOT NULL,
     user_password varchar(255) NOT NULL
 );
+
+CREATE TABLE friendship(
+    user_id uuid NOT NULL,
+    friend_id uuid NOT NULL,
+    PRIMARY KEY(user_id, friend_id) 
+);
+
+CREATE TABLE stories(
+    story_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id uuid NOT NULL,
+    title varchar(255) NOT NULL,
+    body varchar NOT NULL,
+    publish_date DATE,
+    likes INTEGER DEFAULT 0
+);

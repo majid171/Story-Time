@@ -1,0 +1,34 @@
+.container{
+    display: flex;
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
+.bodyContainer{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 60px;
+}
+
+.storyFeedContainer{
+    height: 100vh;
+    width: 25%;
+}
+
+.storyContainer{
+    height: 100vh;
+    /* background-color: pink; */
+    width:50%;
+    border-right: 5px solid black;
+    border-left: 5px solid black;
+}
+
+.featuredContainer{
+    height: 100vh;
+    width: 25%;
+}

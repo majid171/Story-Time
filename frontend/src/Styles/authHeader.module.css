@@ -1,0 +1,109 @@
+.container {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    background-color: white;
+    width: 100vw;
+}
+
+.titleArea {
+    text-align: center;
+    padding-left: 20px;
+}
+
+.logo {
+    height: 50px
+}
+
+.leftButtonContainer{
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #909090;
+    height: 80%;
+}
+
+.homeButton{
+    margin-left: 20px;
+    border: none;
+    background-color: white;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.homeButton:hover{
+    margin-left: 20px;
+    border: none;
+    background-color: white;
+    font-size: 15px;
+    transition: 0.2s;
+    text-decoration: underline;
+}
+
+.authorButton{
+    margin-left: 10px;
+    border: none;
+    background-color: white;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.authorButton:hover{
+    margin-left: 10px;
+    border: none;
+    background-color: white;
+    font-size: 15px;
+    transition: 0.2s;
+    text-decoration: underline;
+}
+
+
+.buttonContainer {
+    display: flex;
+    position: absolute;
+    right: 0;
+    padding-right: 20px;
+}
+
+.profileButtonContainer{
+    padding-right: 5px;
+}
+
+.logoutButtonContainer{
+    padding-left: 5px;
+}
+
+.logoutButton{
+    color: red;
+    border: none;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 15px;
+}
+
+.logoutButton:hover{
+    color: red;
+    border: none;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 15px;
+    text-decoration: underline;
+    text-decoration-color: black;
+}
+
+.profileButton{
+    color: black;
+    border: none;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 15px;
+}
+
+.profileButton:hover{
+    color: black;
+    border: none;
+    background-color: white;
+    transition: 0.2s;
+    font-size: 15px;
+    text-decoration: underline;
+    text-decoration-color: black;
+}
