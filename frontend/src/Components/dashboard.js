@@ -1,4 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import AuthHeader from './authHeader';
+import styles from '../Styles/dashboard.module.css';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -15,19 +17,18 @@ const Dashboard = ({ setAuth }) => {
             })
 
             const parseRes = await response.json();
-            console.log(parseRes);
 
             setFirstName(parseRes.first_name);
             setLastName(parseRes.last_name);
             setEmail(parseRes.user_email);
             setUserID(parseRes.user_id);
-            
+
         } catch (err) {
             console.error(err.message);
         }
     }
 
-    const logout = async(e) =>{
+    const logout = async (e) => {
         e.preventDefault();
 
         await fetch('http://localhost:5000/auth/logout', {
@@ -40,12 +41,22 @@ const Dashboard = ({ setAuth }) => {
         getInfo();
     }, []);
 
+
     return (
-        <Fragment>
-            <h1>Dashboard</h1>
-            <p>{firstName}</p>
-            <button className='btn btn-primary' onClick={(e) => logout(e)}>Logout</button>
-        </Fragment>
+        <div className={styles.container}>
+            <div><AuthHeader logoutHandler={logout} screen={Dashboard}></AuthHeader></div>
+            <div className={styles.bodyContainer}>
+                <div className={styles.storyFeedContainer}>
+                    <h5>The story Feed</h5>
+                </div>
+                <div className={styles.storyContainer}>
+                    <h5>The story</h5>
+                </div>
+                <div className={styles.featuredContainer}>
+                    <h5>The Featured Story</h5>
+                </div>
+            </div>
+        </div>
     );
 }
 
