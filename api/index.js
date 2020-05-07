@@ -15,6 +15,7 @@ app.use(CookieParser());
 // Routes
 app.use('/auth', require('./routes/auth'));
 app.use('/dashboard', require('./routes/dashboard'));
+app.use('/story', require('./routes/story'));
 
 app.listen(5000, () =>{
     console.log("Server is running on port 5000");
