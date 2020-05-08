@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import AuthHeader from './authHeader';
 import StoryItem from './storyItem';
 import styles from '../Styles/dashboard.module.css';
-import moment from 'moment';
 import * as Constants from '../constants';
 
 const Dashboard = ({ setAuth }) => {
@@ -13,6 +12,7 @@ const Dashboard = ({ setAuth }) => {
     const [userID, setUserID] = useState("");
     const [storyList, setStoryList] = useState([{}]);
     const [story, setStory] = useState({});
+    const [open, setOpen] = useState(false);
 
     // Get the user info
     useEffect(() => {
@@ -29,23 +29,6 @@ const Dashboard = ({ setAuth }) => {
     useEffect(() => {
         console.log(storyList);
     }, [storyList]);
-
-
-    //TODO
-    // getSelectedStory = async() =>{
-
-    //     const body = {hi: 'hello'};
-
-    //     try {
-    //         const res = await fetch('http://localhost:5000/dashboard/getStory', {
-    //             method: 'GET',    
-    //             credentials: 'include',
-    //             body: body
-    //         });
-    //     }catch (err) {
-    //         console.error(err.message);
-    //     }
-    // }
 
     const getStoryList = async () => {
         try {
@@ -69,7 +52,7 @@ const Dashboard = ({ setAuth }) => {
         }
     }
 
-    async function getInfo() {
+    const getInfo = async() =>{
         try {
             const url = Constants.backendURL + '/dashboard';
             const response = await fetch(url, {
@@ -87,16 +70,6 @@ const Dashboard = ({ setAuth }) => {
         }
     }
 
-    const logout = async (e) => {
-        e.preventDefault();
-
-        const url = Constants.backendURL + '/auth/logout'
-        await fetch(url, {
-            method: "GET",
-            credentials: 'include'
-        }).then(setAuth(false));
-    }
-
     const renderStoryListItems = () => {
         return (
             storyList.map((story, index) => (
@@ -105,9 +78,33 @@ const Dashboard = ({ setAuth }) => {
         );
     }
 
+    const postStory = async() =>{
+        try {
+            const title='The Good Doctor';
+            const body='bla bla bla';
+
+            const url = Constants.backendURL + '/story/createStory';
+            const res = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    userID,
+                    title,
+                    body
+                })
+            });
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     return (
         <div className={styles.container}>
-            <div><AuthHeader logoutHandler={logout} screen={Dashboard}></AuthHeader></div>
+            <div><AuthHeader setAuth={setAuth}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div className={styles.storyFeedContainer}>
                     <h6 className={styles.leftRightTitle}>Check out stories from people you follow</h6>
@@ -115,8 +112,15 @@ const Dashboard = ({ setAuth }) => {
                         {renderStoryListItems()}
                     </div>
                 </div>
-                <div className={styles.storyContainer}>
-                    <h5>The title is {story.title}</h5>
+                <div className={styles.middleContainer}>
+                    <div className={styles.addContainer}>
+                        <button onClick={postStory} className={styles.shareButton}>What's on your mind, {firstName}?</button>
+                        <hr></hr>
+                        <h6 className={styles.leftRightTitle}>Your follower's are excited to read your stories</h6>
+                    </div>
+                    <div>
+
+                    </div>
                 </div>
                 <div className={styles.featuredContainer}>
                     <h6 className={styles.leftRightTitle}>Check out the featured story of the month</h6>

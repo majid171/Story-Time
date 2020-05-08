@@ -1,14 +1,12 @@
 const router = require("express").Router();
 const pool = require('../db');
 
-router.post('/createStory', async(req, res) =>{
+router.post('/createStory', async (req, res) => {
     try {
-        const {user_id, title, body} = req.body;
-        
-        const newDate = Date.now();
-        
-        await pool.query("INSERT INTO STORIES(user_id, title, body, publish_date) VALUES($1, $2, $3, to_timestamp($4 /1000.0))", 
-            [user_id, title, body, newDate]);
+        const { userID, title, body } = req.body;
+
+        await pool.query("INSERT INTO STORIES(user_id, title, body) VALUES($1, $2, $3)",
+            [userID, title, body]);
 
         res.json({
             message: 'Created Story'
@@ -19,13 +17,13 @@ router.post('/createStory', async(req, res) =>{
     }
 });
 
-router.post('/deleteStory', async(req, res) =>{
+router.post('/deleteStory', async (req, res) => {
     try {
-        const {story_id, user_id} = req.body;
+        const { story_id, user_id } = req.body;
 
         const author_id = await pool.query("SELECT user_id FROM stories WHERE story_id = $1", [story_id])
-        
-        if(author_id.rows[0].user_id !== user_id){
+
+        if (author_id.rows[0].user_id !== user_id) {
             res.sendStatus(401).json('Cannot delete someone else\'s story');
         }
 
@@ -41,11 +39,11 @@ router.post('/deleteStory', async(req, res) =>{
     }
 });
 
-router.get('/getStoryList', async(req, res) =>{
+router.get('/getStoryList', async (req, res) => {
     try {
         const user_id = req.query.id;
-        
-        if(!user_id || user_id === ''){
+
+        if (!user_id || user_id === '') {
             res.sendStatus(401).json('ID blank');
         }
 
@@ -54,16 +52,16 @@ router.get('/getStoryList', async(req, res) =>{
 
         let query = "SELECT s.*, u.first_name, u.last_name FROM stories s JOIN users u on u.user_id = s.user_id WHERE s.user_id IN (";
 
-        for(var i = 0; i < result.length; i++){
+        for (var i = 0; i < result.length; i++) {
             query += '\'' + result[i] + '\'';
-            if(i + 1 != result.length){
+            if (i + 1 != result.length) {
                 query += ',';
             }
         }
         query += ') ORDER BY s.publish_date DESC';
         const myRes = await pool.query(query);
         const rows = myRes.rows;
-        console.log(rows);
+        // console.log(rows);
 
         res.json(rows);
     } catch (error) {
@@ -72,9 +70,9 @@ router.get('/getStoryList', async(req, res) =>{
     }
 })
 
-router.get('/getStory', async(req, res) =>{
+router.get('/getStory', async (req, res) => {
     try {
-        const {} = req.body;
+        const { } = req.body;
     } catch (error) {
         console.error(error.message);
         res.status(500).json('Server Error');
