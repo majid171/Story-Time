@@ -3,6 +3,7 @@ import AuthHeader from './authHeader';
 import StoryItem from './storyItem';
 import styles from '../Styles/dashboard.module.css';
 import moment from 'moment';
+import * as Constants from '../constants';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -51,8 +52,8 @@ const Dashboard = ({ setAuth }) => {
             const params = new URLSearchParams({
                 id: userID
             });
-            const url = 'http://localhost:5000/story/getStoryList?' + params.toString();
-
+            const url = Constants.backendURL + '/story/getStoryList?' + params.toString();
+            
             const res = await fetch(url, {
                 method: 'GET',
                 credentials: 'include',
@@ -62,12 +63,7 @@ const Dashboard = ({ setAuth }) => {
                     return res.json();
                 }).then((data) => {
                     setStoryList(data);
-                    // console.log(storyList);
                 });
-
-            // const parseRes = await res.json();
-            // console.log(parseRes);
-
         } catch (error) {
             console.error(error.message);
         }
@@ -75,7 +71,8 @@ const Dashboard = ({ setAuth }) => {
 
     async function getInfo() {
         try {
-            const response = await fetch("http://localhost:5000/dashboard", {
+            const url = Constants.backendURL + '/dashboard';
+            const response = await fetch(url, {
                 method: "GET",
                 credentials: 'include'
             })
@@ -93,7 +90,8 @@ const Dashboard = ({ setAuth }) => {
     const logout = async (e) => {
         e.preventDefault();
 
-        await fetch('http://localhost:5000/auth/logout', {
+        const url = Constants.backendURL + '/auth/logout'
+        await fetch(url, {
             method: "GET",
             credentials: 'include'
         }).then(setAuth(false));

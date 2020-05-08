@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../Styles/storyItem.module.css';
 import moment from 'moment';
+import * as Constants from '../constants';
 
 const StoryItem = ({ story, index }) => {
 

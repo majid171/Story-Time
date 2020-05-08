@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../Styles/authHeader.module.css';
+import * as Constants from '../constants';
 
 const AuthHeader = ({ logoutHandler, screen }) => {
     return (
