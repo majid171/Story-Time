@@ -19,6 +19,6 @@ CREATE TABLE stories(
     user_id uuid NOT NULL REFERENCES users(user_id),
     title varchar(255) NOT NULL,
     body varchar NOT NULL,
-    publish_date TIMESTAMPTZ,
+    publish_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     likes INTEGER DEFAULT 0
 );

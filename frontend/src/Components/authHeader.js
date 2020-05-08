@@ -1,8 +1,20 @@
 import React from 'react';
 import styles from '../Styles/authHeader.module.css';
 import * as Constants from '../constants';
+import Dashboard from './dashboard';
 
-const AuthHeader = ({ logoutHandler, screen }) => {
+const AuthHeader = ({ setAuth }) => {
+
+    const logout = async(e) =>{
+        e.preventDefault();
+
+        const url = Constants.backendURL + '/auth/logout'
+        await fetch(url, {
+            method: "GET",
+            credentials: 'include'
+        }).then(setAuth(false));
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.titleArea}>
@@ -17,7 +29,7 @@ const AuthHeader = ({ logoutHandler, screen }) => {
                     <button className={styles.profileButton}>Profile</button>
                 </div> */}
                 <div className={styles.logoutButtonContainer}>
-                    <button className={styles.logoutButton} onClick={logoutHandler}>Sign Out</button>
+                    <button className={styles.logoutButton} onClick={logout}>Sign Out</button>
                 </div>
             </div>
         </div>
