@@ -52,7 +52,7 @@ router.get('/getStoryList', async(req, res) =>{
         const friendIDS = await pool.query('SELECT friend_id FROM friendship WHERE user_id = $1', [user_id]);
         const result = friendIDS.rows.map(a => a.friend_id);
 
-        let query = "SELECT * FROM stories WHERE user_id IN (";
+        let query = "SELECT s.*, u.first_name, u.last_name FROM stories s JOIN users u on u.user_id = s.user_id WHERE s.user_id IN (";
 
         for(var i = 0; i < result.length; i++){
             query += '\'' + result[i] + '\'';

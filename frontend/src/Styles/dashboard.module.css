@@ -20,6 +20,21 @@
     width: 25%;
 }
 
+.storyListContainer{
+    display: inline-block;
+    /* flex-direction: row; */
+    /* background-color: lightblue; */
+    width: 100%;
+    height: 100%;
+    overflow: scroll;
+    -ms-overflow-style: none;
+}
+
+/* hiding the scrollbar for chrome, safari and opera*/
+.storyListContainer::-webkit-scrollbar{
+    display: none;
+}
+
 .storyContainer{
     height: 100vh;
     /* background-color: pink; */
