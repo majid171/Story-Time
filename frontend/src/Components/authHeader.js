@@ -5,7 +5,7 @@ const AuthHeader = ({ logoutHandler, screen }) => {
     return (
         <div className={styles.container}>
             <div className={styles.titleArea}>
-                <img src={require('../assets/full-logo.png')} className={styles.logo} />
+                <img alt="StoryTime" src={require('../assets/full-logo.png')} className={styles.logo} />
             </div>
             <div className={styles.leftButtonContainer}>
                 <button className={styles.homeButton}>Home</button>
