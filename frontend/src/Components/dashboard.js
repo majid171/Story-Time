@@ -53,7 +53,7 @@ const Dashboard = ({ setAuth }) => {
                 id: userID
             });
             const url = Constants.backendURL + '/story/getStoryList?' + params.toString();
-            
+
             const res = await fetch(url, {
                 method: 'GET',
                 credentials: 'include',
@@ -99,12 +99,9 @@ const Dashboard = ({ setAuth }) => {
 
     const renderStoryListItems = () => {
         return (
-            <div className={styles.storyListContainer}>
-                {storyList.map((story, index) => (
-                   <StoryItem story={story} index={index}></StoryItem>
-                ))}
-            </div>
-
+            storyList.map((story, index) => (
+                <StoryItem story={story} index={index}></StoryItem>
+            ))
         );
     }
 
@@ -113,14 +110,16 @@ const Dashboard = ({ setAuth }) => {
             <div><AuthHeader logoutHandler={logout} screen={Dashboard}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div className={styles.storyFeedContainer}>
-                    <h5>Story Feed</h5>
-                    {renderStoryListItems()}
+                    <h6 className={styles.leftRightTitle}>Check out stories from people you follow</h6>
+                    <div className={styles.storyListContainer}>
+                        {renderStoryListItems()}
+                    </div>
                 </div>
                 <div className={styles.storyContainer}>
                     <h5>The title is {story.title}</h5>
                 </div>
                 <div className={styles.featuredContainer}>
-                    <h5>The Featured Story</h5>
+                    <h6 className={styles.leftRightTitle}>Check out the featured story of the month</h6>
                 </div>
             </div>
         </div>
