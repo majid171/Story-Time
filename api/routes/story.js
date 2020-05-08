@@ -60,7 +60,7 @@ router.get('/getStoryList', async(req, res) =>{
                 query += ',';
             }
         }
-        query += ')';
+        query += ') ORDER BY s.publish_date DESC';
         const myRes = await pool.query(query);
         const rows = myRes.rows;
         console.log(rows);
