@@ -1,42 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import AuthHeader from './authHeader';
+import StoryItem from './storyItem';
 import styles from '../Styles/dashboard.module.css';
 
 const Dashboard = ({ setAuth }) => {
 
-    const [isLoading, setIsLoading] = useState(true);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [userID, setUserID] = useState("");
-    const [storyList, setStoryList] = useState([]);
-    const [story, setStory] = useState({
-        title: '',
-        author: '',
-        body: '',
-        likes: '',
-        publishDate: ''
-    });
+    const [storyList, setStoryList] = useState([{}]);
+    const [story, setStory] = useState({});
 
+    // Get the user info
     useEffect(() => {
         getInfo();
     }, []);
 
-    
-    // useEffect(() => {
-    //     setStory({
-    //         title: 'The Good Doctor',
-    //         author: 'Majid Joseph',
-    //         body: 'dgsdfsdfsdfsdfsdf',
-    //         likes: '1000',
-    //         publishDate: 'May 7th, 2020'
-    //     });
-    // }, []);
-
+    // Get the story list
     useEffect(() => {
-        console.log('Looks like user id got updated to', userID)
+        if (userID === '') return;
         getStoryList();
     }, [userID]);
+
+    // Set the story list to the page
+    useEffect(() => {
+        console.log(storyList);
+    }, [storyList]);
+
 
     //TODO
     // getSelectedStory = async() =>{
@@ -60,13 +51,21 @@ const Dashboard = ({ setAuth }) => {
                 id: userID
             });
             const url = 'http://localhost:5000/story/getStoryList?' + params.toString();
+
             const res = await fetch(url, {
                 method: 'GET',
                 credentials: 'include',
 
-            }).then(setIsLoading(false));
+            })
+                .then((res) => {
+                    return res.json();
+                }).then((data) => {
+                    setStoryList(data);
+                    // console.log(storyList);
+                });
 
-            const parseRes = await res.json();
+            // const parseRes = await res.json();
+            // console.log(parseRes);
 
         } catch (error) {
             console.error(error.message);
@@ -81,7 +80,6 @@ const Dashboard = ({ setAuth }) => {
             })
 
             const parseRes = await response.json();
-
             setFirstName(parseRes.first_name);
             setLastName(parseRes.last_name);
             setEmail(parseRes.user_email);
@@ -100,8 +98,15 @@ const Dashboard = ({ setAuth }) => {
         }).then(setAuth(false));
     }
 
-    if(isLoading){
-        return(<p>Loading...</p>);
+    const renderStoryListItems = () => {
+        return (
+            <div className={styles.storyListContainer}>
+                {storyList.map((story, index) => (
+                   <StoryItem story={story} index={index}></StoryItem>
+                ))}
+            </div>
+
+        );
     }
 
     return (
@@ -109,7 +114,8 @@ const Dashboard = ({ setAuth }) => {
             <div><AuthHeader logoutHandler={logout} screen={Dashboard}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div className={styles.storyFeedContainer}>
-                    <h5>The story Feed of {userID}</h5>
+                    <h5>Story Feed</h5>
+                    {renderStoryListItems()}
                 </div>
                 <div className={styles.storyContainer}>
                     <h5>The title is {story.title}</h5>
