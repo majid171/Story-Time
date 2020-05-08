@@ -5,9 +5,9 @@ router.post('/createStory', async(req, res) =>{
     try {
         const {user_id, title, body} = req.body;
         
-        const newDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
-
-        await pool.query("INSERT INTO STORIES(user_id, title, body, publish_date) VALUES($1, $2, $3, $4)", 
+        const newDate = Date.now();
+        
+        await pool.query("INSERT INTO STORIES(user_id, title, body, publish_date) VALUES($1, $2, $3, to_timestamp($4 /1000.0))", 
             [user_id, title, body, newDate]);
 
         res.json({

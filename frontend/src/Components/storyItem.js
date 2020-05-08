@@ -1,7 +1,13 @@
 import React from 'react';
 import styles from '../Styles/storyItem.module.css';
+import moment from 'moment';
 
 const StoryItem = ({ story, index }) => {
+
+    const timeSince = (date) => {
+        return (moment(date).fromNow());
+    }
+
     return (
         <div>
             <div key={index} className={styles.storyItem} >
@@ -13,7 +19,7 @@ const StoryItem = ({ story, index }) => {
                         <strong>{story.likes}</strong>
                     </div>
                     <div className={styles.dateArea}>
-                        Posted {story.publish_date}
+                        Posted {timeSince(story.publish_date)}
                     </div>
                 </div>
             </div>

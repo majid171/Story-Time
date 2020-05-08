@@ -19,6 +19,6 @@ CREATE TABLE stories(
     user_id uuid NOT NULL,
     title varchar(255) NOT NULL,
     body varchar NOT NULL,
-    publish_date DATE,
+    publish_date TIMESTAMPTZ,
     likes INTEGER DEFAULT 0
 );
