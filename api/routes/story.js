@@ -41,6 +41,37 @@ router.post('/deleteStory', async(req, res) =>{
     }
 });
 
+router.get('/getStoryList', async(req, res) =>{
+    try {
+        const user_id = req.query.id;
+        
+        if(!user_id || user_id === ''){
+            res.sendStatus(401).json('ID blank');
+        }
+
+        const friendIDS = await pool.query('SELECT friend_id FROM friendship WHERE user_id = $1', [user_id]);
+        const result = friendIDS.rows.map(a => a.friend_id);
+
+        let query = "SELECT * FROM stories WHERE user_id IN (";
+
+        for(var i = 0; i < result.length; i++){
+            query += '\'' + result[i] + '\'';
+            if(i + 1 != result.length){
+                query += ',';
+            }
+        }
+        query += ')';
+        const myRes = await pool.query(query);
+        const rows = myRes.rows;
+        console.log(rows);
+
+        res.json(rows);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json('Server Error');
+    }
+})
+
 router.get('/getStory', async(req, res) =>{
     try {
         const {} = req.body;
