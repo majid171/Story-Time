@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { TextField } from '@material-ui/core/';
 import styles from '../Styles/register.module.css';
 import Header from './header';
+import * as Constants from '../constants';
 
 const textFieldStyle = {
     width: '80%',
@@ -37,8 +38,10 @@ const Register = ({ setAuth }) => {
         e.preventDefault();
         
         try {
+
+            const url = Constants.backendURL + '/auth/register'
             const body = { first_name, last_name, email, password }
-            const response = await fetch('http://localhost:5000/auth/register', {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
@@ -114,7 +117,7 @@ const Register = ({ setAuth }) => {
                     </div>
                     <span>
                         Already have an account?
-                        <a href="http://localhost:3000/login"> Log In</a>
+                        <a href={Constants.frontendURL + '/login'}> Log In</a>
                     </span>
                     <button disabled={!validateForm()} className={styles.signUpButton}>Sign Up</button>
                 </form>

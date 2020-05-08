@@ -2,12 +2,13 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const CookieParser = require('cookie-parser');
+require('dotenv').config();
 
 // middleware
 app.use(express.json());
 // app.use(cors());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.frontendURL,
     credentials: true
 }));
 app.use(CookieParser());

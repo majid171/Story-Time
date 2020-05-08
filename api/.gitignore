@@ -1,0 +1,8 @@
+# Database connection
+db.js
+
+# Environment Variables
+.env
+
+# Dependencies
+/node_modules

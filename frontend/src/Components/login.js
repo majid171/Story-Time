@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '@material-ui/core';
 import styles from '../Styles/login.module.css';
 import Header from './header';
+import * as Constants from '../constants';
 
 const textFieldStyle = {
     width: '70%',
@@ -28,8 +29,9 @@ const Login = ({ setAuth }) => {
 
         try {
 
+            const url = Constants.backendURL + '/auth/login'
             const body = { email, password }
-            const response = await fetch('http://localhost:5000/auth/login', {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     "Content-type": "application/json"
@@ -86,7 +88,7 @@ const Login = ({ setAuth }) => {
                     <a href="#" className={styles.forgot}>Forgot Password?</a>
                     <span className={styles.registerText}>
                         Don't have an account?
-                        <a href="http://localhost:3000/register" > Sign Up</a>
+                        <a href={Constants.frontendURL + '/register'} > Sign Up</a>
                     </span>
                     
                     <hr></hr>
