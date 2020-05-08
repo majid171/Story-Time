@@ -16,7 +16,7 @@ CREATE TABLE friendship(
 
 CREATE TABLE stories(
     story_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id uuid NOT NULL,
+    user_id uuid NOT NULL REFERENCES users(user_id),
     title varchar(255) NOT NULL,
     body varchar NOT NULL,
     publish_date TIMESTAMPTZ,
