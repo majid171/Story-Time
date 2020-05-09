@@ -5,6 +5,8 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 import Dashboard from './Components/dashboard';
 import Login from './Components/login';
 import Register from './Components/register';
+import * as Constants from './constants.js';
+
 
 function App() {
   
@@ -14,9 +16,10 @@ function App() {
     setIsAuthenticated(boolean);
   }
 
-  async function isAuth(){
+  const isAuth = async() =>{
+    const url = Constants.backendURL + '/auth/is-verify';
     try{
-      const response = await fetch('http://localhost:5000/auth/is-verify', {
+      const response = await fetch(url, {
         method: "GET",
         credentials: 'include'
       });

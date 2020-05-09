@@ -3,6 +3,7 @@ import AuthHeader from './authHeader';
 import StoryItem from './storyItem';
 import styles from '../Styles/dashboard.module.css';
 import * as Constants from '../constants';
+import { Modal } from 'react-bootstrap';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -13,6 +14,8 @@ const Dashboard = ({ setAuth }) => {
     const [storyList, setStoryList] = useState([{}]);
     const [story, setStory] = useState({});
     const [open, setOpen] = useState(false);
+    const [creadtedStoryTitle, setCreadtedStoryTitle] = useState('');
+    const [createdStoryBody, setCreatedStoryBody] = useState('');
 
     // Get the user info
     useEffect(() => {
@@ -52,7 +55,7 @@ const Dashboard = ({ setAuth }) => {
         }
     }
 
-    const getInfo = async() =>{
+    const getInfo = async () => {
         try {
             const url = Constants.backendURL + '/dashboard';
             const response = await fetch(url, {
@@ -78,10 +81,8 @@ const Dashboard = ({ setAuth }) => {
         );
     }
 
-    const postStory = async() =>{
+    const postStory = async () => {
         try {
-            const title='The Good Doctor';
-            const body='bla bla bla';
 
             const url = Constants.backendURL + '/story/createStory';
             const res = await fetch(url, {
@@ -92,8 +93,8 @@ const Dashboard = ({ setAuth }) => {
                 },
                 body: JSON.stringify({
                     userID,
-                    title,
-                    body
+                    creadtedStoryTitle,
+                    createdStoryBody
                 })
             });
 
@@ -114,7 +115,19 @@ const Dashboard = ({ setAuth }) => {
                 </div>
                 <div className={styles.middleContainer}>
                     <div className={styles.addContainer}>
-                        <button onClick={postStory} className={styles.shareButton}>What's on your mind, {firstName}?</button>
+                        <button onClick={() => setOpen(true)} className={styles.shareButton}>What's on your mind, {firstName}?</button>
+
+                        <Modal
+                            size="lg"
+                            animation={false}
+                            show={open}
+                            onHide={() => setOpen(false)}
+                            centered
+                        >
+                            <div>the stuff will go here</div>
+                        </Modal>
+
+
                         <hr></hr>
                         <h6 className={styles.leftRightTitle}>Your follower's are excited to read your stories</h6>
                     </div>

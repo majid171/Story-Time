@@ -3,10 +3,10 @@ const pool = require('../db');
 
 router.post('/createStory', async (req, res) => {
     try {
-        const { userID, title, body } = req.body;
+        const { userID, createdStoryTitle, createdStoryBody } = req.body;
 
         await pool.query("INSERT INTO STORIES(user_id, title, body) VALUES($1, $2, $3)",
-            [userID, title, body]);
+            [userID, createdStoryTitle, createdStoryBody]);
 
         res.json({
             message: 'Created Story'
