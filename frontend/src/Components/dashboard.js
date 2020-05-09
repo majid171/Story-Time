@@ -5,6 +5,7 @@ import styles from '../Styles/dashboard.module.css';
 import * as Constants from '../constants';
 import { Modal } from 'react-bootstrap';
 import { TextField } from '@material-ui/core';
+import {NotificationContainer} from 'react-notifications';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -85,7 +86,7 @@ const Dashboard = ({ setAuth }) => {
     const handlePostStory = async () => {
 
         setOpen(false);
-
+        setCreatedStoryBody(createdStoryBody.trim());
         try {
             const url = Constants.backendURL + '/story/createStory';
             const res = await fetch(url, {
@@ -99,7 +100,11 @@ const Dashboard = ({ setAuth }) => {
                     createdStoryTitle,
                     createdStoryBody
                 })
-            });
+            }).
+                then(setCreatedStoryTitle('').
+                then(setCreatedStoryBody('')
+                
+            ));
 
         } catch (error) {
             console.error(error.message);
@@ -156,12 +161,11 @@ const Dashboard = ({ setAuth }) => {
                                 <button onClick={handlePostStory} disabled={!canPublish()} className={styles.publish}>Publish</button>
                             </Modal.Footer>
                         </Modal>
-
+                        <NotificationContainer />
                         <hr></hr>
                         <h6 className={styles.leftRightTitle}>Your follower's are excited to read your stories</h6>
                     </div>
-                    <div>
-
+                    <div className={styles.storyContainer}>
                     </div>
                 </div>
                 <div className={styles.featuredContainer}>
