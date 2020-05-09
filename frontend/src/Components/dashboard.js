@@ -4,6 +4,7 @@ import StoryItem from './storyItem';
 import styles from '../Styles/dashboard.module.css';
 import * as Constants from '../constants';
 import { Modal } from 'react-bootstrap';
+import { TextField } from '@material-ui/core';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -14,7 +15,7 @@ const Dashboard = ({ setAuth }) => {
     const [storyList, setStoryList] = useState([{}]);
     const [story, setStory] = useState({});
     const [open, setOpen] = useState(false);
-    const [creadtedStoryTitle, setCreadtedStoryTitle] = useState('');
+    const [createdStoryTitle, setCreatedStoryTitle] = useState('');
     const [createdStoryBody, setCreatedStoryBody] = useState('');
 
     // Get the user info
@@ -76,14 +77,16 @@ const Dashboard = ({ setAuth }) => {
     const renderStoryListItems = () => {
         return (
             storyList.map((story, index) => (
-                <StoryItem story={story} index={index}></StoryItem>
+                <StoryItem key={index} story={story} index={index}></StoryItem>
             ))
         );
     }
 
-    const postStory = async () => {
-        try {
+    const handlePostStory = async () => {
 
+        setOpen(false);
+
+        try {
             const url = Constants.backendURL + '/story/createStory';
             const res = await fetch(url, {
                 method: 'POST',
@@ -93,7 +96,7 @@ const Dashboard = ({ setAuth }) => {
                 },
                 body: JSON.stringify({
                     userID,
-                    creadtedStoryTitle,
+                    createdStoryTitle,
                     createdStoryBody
                 })
             });
@@ -101,6 +104,17 @@ const Dashboard = ({ setAuth }) => {
         } catch (error) {
             console.error(error.message);
         }
+    }
+
+    const handleOnHide = () =>{
+        setOpen(false);
+        setCreatedStoryBody('');
+        setCreatedStoryTitle('');
+    }
+
+    const canPublish = () =>{
+        return createdStoryTitle !== ''
+        && createdStoryBody !== '';
     }
 
     return (
@@ -121,12 +135,27 @@ const Dashboard = ({ setAuth }) => {
                             size="lg"
                             animation={false}
                             show={open}
-                            onHide={() => setOpen(false)}
+                            onHide={handleOnHide}
                             centered
-                        >
-                            <div>the stuff will go here</div>
-                        </Modal>
 
+                        >
+                            <Modal.Header>
+                                <Modal.Title>Create Story</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body className={styles.modalBody}>
+                                <TextField id="standard-basic" label="Title" value={createdStoryTitle} onChange={(e) => setCreatedStoryTitle(e.target.value)} style={{width: '30%'}
+                                }/>
+                                <textarea 
+                                    className={styles.bodyField}
+                                    value={createdStoryBody}
+                                    onChange={(e) => setCreatedStoryBody(e.target.value)}
+                                />
+
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <button onClick={handlePostStory} disabled={!canPublish()} className={styles.publish}>Publish</button>
+                            </Modal.Footer>
+                        </Modal>
 
                         <hr></hr>
                         <h6 className={styles.leftRightTitle}>Your follower's are excited to read your stories</h6>
