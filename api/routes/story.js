@@ -4,6 +4,7 @@ const pool = require('../db');
 router.post('/createStory', async (req, res) => {
     try {
         const { userID, createdStoryTitle, createdStoryBody } = req.body;
+        console.log(userID, createdStoryTitle, createdStoryBody);
 
         await pool.query("INSERT INTO STORIES(user_id, title, body) VALUES($1, $2, $3)",
             [userID, createdStoryTitle, createdStoryBody]);

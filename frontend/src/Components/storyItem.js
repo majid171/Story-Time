@@ -12,7 +12,7 @@ const StoryItem = ({ story, index }) => {
     }
 
     return (
-        <div key={index} className={styles.storyItem} >
+        <div className={styles.storyItem} >
             <span className={styles.title}><a href={'#'}><strong>{story.title}</strong></a></span>
             <i><p className={styles.author}>By: {story.first_name} {story.last_name}</p></i>
             <div className={styles.bottomArea}>
