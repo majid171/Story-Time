@@ -5,7 +5,7 @@ import styles from '../Styles/dashboard.module.css';
 import * as Constants from '../constants';
 import { Modal } from 'react-bootstrap';
 import { TextField } from '@material-ui/core';
-import {NotificationContainer} from 'react-notifications';
+import moment from 'moment';
 
 const Dashboard = ({ setAuth }) => {
 
@@ -18,6 +18,12 @@ const Dashboard = ({ setAuth }) => {
     const [open, setOpen] = useState(false);
     const [createdStoryTitle, setCreatedStoryTitle] = useState('');
     const [createdStoryBody, setCreatedStoryBody] = useState('');
+    const [selectedStoryTitle, setSelectedStoryTitle] = useState('');
+    const [selectedStoryBody, setSelectedStoryBody] = useState('');
+    const [selectedStoryAuthorFirst, setSelectedStoryAuthorFirst] = useState('');
+    const [selectedStoryAuthorLast, setSelectedStoryAuthorLast] = useState('');
+    const [selectedStoryDate, setSelectedStoryDate] = useState('');
+    const [showStoryDiv, setShowStoryDiv] = useState(false);
 
     // Get the user info
     useEffect(() => {
@@ -29,11 +35,6 @@ const Dashboard = ({ setAuth }) => {
         if (userID === '') return;
         getStoryList();
     }, [userID]);
-
-    // Set the story list to the page
-    useEffect(() => {
-        console.log(storyList);
-    }, [storyList]);
 
     const getStoryList = async () => {
         try {
@@ -75,10 +76,19 @@ const Dashboard = ({ setAuth }) => {
         }
     }
 
+    const handleStoryClick = (story) => {
+        setShowStoryDiv(true);
+        setSelectedStoryTitle(story.title);
+        setSelectedStoryBody(story.body);
+        setSelectedStoryDate(story.publish_date);
+        setSelectedStoryAuthorFirst(story.first_name);
+        setSelectedStoryAuthorLast(story.last_name);
+    }
+
     const renderStoryListItems = () => {
         return (
             storyList.map((story, index) => (
-                <StoryItem key={index} story={story} index={index}></StoryItem>
+                <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)}></StoryItem>
             ))
         );
     }
@@ -100,26 +110,32 @@ const Dashboard = ({ setAuth }) => {
                     createdStoryTitle,
                     createdStoryBody
                 })
-            }).
-                then(setCreatedStoryTitle('').
-                then(setCreatedStoryBody('')
-                
-            ));
-
+            })
+                .then(setCreatedStoryBody(''))
+                .then(setCreatedStoryTitle(''))
+                ;
         } catch (error) {
             console.error(error.message);
         }
     }
 
-    const handleOnHide = () =>{
+    const handleOnHide = () => {
         setOpen(false);
         setCreatedStoryBody('');
         setCreatedStoryTitle('');
     }
 
-    const canPublish = () =>{
+    const canPublish = () => {
         return createdStoryTitle !== ''
-        && createdStoryBody !== '';
+            && createdStoryBody !== '';
+    }
+
+    const renderMessage = () => {
+        return (
+            <div style={{ marginTop: 50 }}>
+                <h5>Choose a story to read</h5>
+            </div>
+        );
     }
 
     return (
@@ -148,9 +164,9 @@ const Dashboard = ({ setAuth }) => {
                                 <Modal.Title>Create Story</Modal.Title>
                             </Modal.Header>
                             <Modal.Body className={styles.modalBody}>
-                                <TextField id="standard-basic" label="Title" value={createdStoryTitle} onChange={(e) => setCreatedStoryTitle(e.target.value)} style={{width: '30%'}
-                                }/>
-                                <textarea 
+                                <TextField id="standard-basic" label="Title" value={createdStoryTitle} onChange={(e) => setCreatedStoryTitle(e.target.value)} style={{ width: '30%' }
+                                } />
+                                <textarea
                                     className={styles.bodyField}
                                     value={createdStoryBody}
                                     onChange={(e) => setCreatedStoryBody(e.target.value)}
@@ -161,12 +177,24 @@ const Dashboard = ({ setAuth }) => {
                                 <button onClick={handlePostStory} disabled={!canPublish()} className={styles.publish}>Publish</button>
                             </Modal.Footer>
                         </Modal>
-                        <NotificationContainer />
                         <hr></hr>
                         <h6 className={styles.leftRightTitle}>Your follower's are excited to read your stories</h6>
                     </div>
-                    <div className={styles.storyContainer}>
-                    </div>
+                    {!showStoryDiv ? renderMessage() :
+                        <div className={styles.storyContainer}>
+                            <div className={styles.storyHeaders}>
+                                <h5>{selectedStoryTitle}</h5>
+                                <div className={styles.subHeader}>
+                                    <span style={{ color: '#444444', fontSize: '13px' }}><i>By: {selectedStoryAuthorFirst} {selectedStoryAuthorLast}</i></span>
+                                </div>
+                            </div>
+                            <hr></hr>
+                            <div className={styles.storyBodyContainer}>
+                                {/* <div className={styles.storyContainer}> */}
+                                    {selectedStoryBody}
+                                {/* </div> */}
+                            </div>
+                        </div>}
                 </div>
                 <div className={styles.featuredContainer}>
                     <h6 className={styles.leftRightTitle}>Check out the featured story of the month</h6>
