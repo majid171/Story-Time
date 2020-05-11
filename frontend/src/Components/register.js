@@ -117,7 +117,7 @@ const Register = ({ setAuth }) => {
                     </div>
                     <span>
                         Already have an account?
-                        <a href={Constants.frontendURL}> Log In</a>
+                        <a href={Constants.frontendURL + '/login'}> Log In</a>
                     </span>
                     <button disabled={!validateForm()} className={styles.signUpButton}>Sign Up</button>
                 </form>
