@@ -5,16 +5,12 @@ import styles from '../Styles/dashboard.module.css';
 import * as Constants from '../constants';
 import { Modal } from 'react-bootstrap';
 import { TextField } from '@material-ui/core';
-import moment from 'moment';
 
 const Dashboard = ({ setAuth }) => {
 
     const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
     const [userID, setUserID] = useState("");
     const [storyList, setStoryList] = useState([{}]);
-    const [story, setStory] = useState({});
     const [open, setOpen] = useState(false);
     const [createdStoryTitle, setCreatedStoryTitle] = useState('');
     const [createdStoryBody, setCreatedStoryBody] = useState('');
@@ -22,7 +18,6 @@ const Dashboard = ({ setAuth }) => {
     const [selectedStoryBody, setSelectedStoryBody] = useState('');
     const [selectedStoryAuthorFirst, setSelectedStoryAuthorFirst] = useState('');
     const [selectedStoryAuthorLast, setSelectedStoryAuthorLast] = useState('');
-    const [selectedStoryDate, setSelectedStoryDate] = useState('');
     const [showStoryDiv, setShowStoryDiv] = useState(false);
 
     // Get the user info
@@ -68,8 +63,6 @@ const Dashboard = ({ setAuth }) => {
 
             const parseRes = await response.json();
             setFirstName(parseRes.first_name);
-            setLastName(parseRes.last_name);
-            setEmail(parseRes.user_email);
             setUserID(parseRes.user_id);
         } catch (err) {
             console.error(err.message);
@@ -80,7 +73,6 @@ const Dashboard = ({ setAuth }) => {
         setShowStoryDiv(true);
         setSelectedStoryTitle(story.title);
         setSelectedStoryBody(story.body);
-        setSelectedStoryDate(story.publish_date);
         setSelectedStoryAuthorFirst(story.first_name);
         setSelectedStoryAuthorLast(story.last_name);
     }
