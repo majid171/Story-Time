@@ -86,11 +86,13 @@ const Dashboard = ({ setAuth }) => {
     }
 
     const renderStoryListItems = () => {
-        return (
-            storyList.map((story, index) => (
-                <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)}></StoryItem>
-            ))
-        );
+        if(storyList[0].story_id){
+            return (
+                storyList.map((story, index) => (
+                    <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)}></StoryItem>
+                ))
+            );
+        }        
     }
 
     const handlePostStory = async () => {
@@ -190,9 +192,7 @@ const Dashboard = ({ setAuth }) => {
                             </div>
                             <hr></hr>
                             <div className={styles.storyBodyContainer}>
-                                {/* <div className={styles.storyContainer}> */}
                                     {selectedStoryBody}
-                                {/* </div> */}
                             </div>
                         </div>}
                 </div>

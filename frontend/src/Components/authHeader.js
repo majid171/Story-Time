@@ -25,9 +25,6 @@ const AuthHeader = ({ setAuth }) => {
                 <button className={styles.authorButton}>Authors</button>
             </div>
             <div className={styles.buttonContainer}>
-                {/* <div className={styles.profileButtonContainer}>
-                    <button className={styles.profileButton}>Profile</button>
-                </div> */}
                 <div className={styles.logoutButtonContainer}>
                     <button className={styles.logoutButton} onClick={logout}>Sign Out</button>
                 </div>
