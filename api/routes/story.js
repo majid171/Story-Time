@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const pool = require('../db');
+const authorization = require('../middleware/authorization');
 
-router.post('/createStory', async (req, res) => {
+router.post('/createStory', authorization, async (req, res) => {
     try {
         const { userID, createdStoryTitle, createdStoryBody } = req.body;
         // console.log(createdStoryBody);
@@ -18,7 +19,7 @@ router.post('/createStory', async (req, res) => {
     }
 });
 
-router.post('/deleteStory', async (req, res) => {
+router.post('/deleteStory', authorization, async (req, res) => {
     try {
         const { story_id, user_id } = req.body;
 
@@ -40,7 +41,7 @@ router.post('/deleteStory', async (req, res) => {
     }
 });
 
-router.get('/getStoryList', async (req, res) => {
+router.get('/getStoryList', authorization, async (req, res) => {
     try {
         const user_id = req.query.id;
 
@@ -60,23 +61,44 @@ router.get('/getStoryList', async (req, res) => {
             }
         }
         query += ') ORDER BY s.publish_date DESC';
+
         const myRes = await pool.query(query);
         const rows = myRes.rows;
-        // console.log(rows);
-
         res.json(rows);
+
     } catch (error) {
         console.error(error.message);
         res.status(500).json('Server Error');
     }
 })
 
-router.get('/getStory', async (req, res) => {
+router.post('/toggleLike', authorization, async (req, res) => {
     try {
-        const { } = req.body;
+
+        const { story_id, user_id } = req.body;
+
+        var exists = await pool.query('SELECT * FROM likes WHERE story_id = $1 AND user_id = $2', [story_id, user_id]);
+        exists = exists.rows[0];
+
+        var currentLikes = await pool.query('SELECT likes FROM stories WHERE story_id = $1', [story_id]);
+        currentLikes = currentLikes.rows[0].likes;
+
+        if (!exists) {
+            await pool.query('INSERT INTO likes VALUES($1, $2)', [story_id, user_id]);
+            await pool.query('UPDATE stories SET likes = $1 WHERE story_id = $2', [currentLikes + 1, story_id]);
+            res.status(200).json('liked');
+        }
+        else {
+            await pool.query('DELETE FROM likes WHERE story_id = $1 AND user_id = $2', [story_id, user_id]);
+            await pool.query('UPDATE stories SET likes = $1 WHERE story_id = $2', [currentLikes - 1, story_id]);
+            res.status(200).json('unliked');
+        }
+
+        
+
     } catch (error) {
-        console.error(error.message);
-        res.status(500).json('Server Error');
+        console.error(error);
+        res.status(500).json('Server Error')
     }
 });
 

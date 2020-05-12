@@ -28,7 +28,6 @@ const Login = ({ setAuth }) => {
         e.preventDefault();
 
         try {
-
             const url = Constants.backendURL + '/auth/login'
             const body = { email, password }
             const response = await fetch(url, {
@@ -89,8 +88,7 @@ const Login = ({ setAuth }) => {
                     <span className={styles.registerText}>
                         Don't have an account?
                         <a href={Constants.frontendURL + '/register'} > Sign Up</a>
-                    </span>
-                    
+                    </span>    
                     <hr></hr>
                     <button disabled={!validateForm()} className={styles.loginButton}>Log in</button>
                 </form>
