@@ -1,16 +1,12 @@
 import React from 'react';
 import styles from '../Styles/storyItem.module.css';
 import moment from 'moment';
-import * as Constants from '../constants';
-import { shadows } from '@material-ui/system';
 
-
-const StoryItem = ({ story, handleClick }) => {
+const StoryItem = ({ story, handleClick, handleLike }) => {
 
     const timeSince = (date) => {
         return (moment(date).fromNow());
     }
-
 
     return (
         <div className={styles.storyItem} >
@@ -20,7 +16,7 @@ const StoryItem = ({ story, handleClick }) => {
             <i><p className={styles.author}>By: {story.first_name} {story.last_name}</p></i>
             <div className={styles.bottomArea}>
                 <div className={styles.likeArea}>
-                    <strong>+ {story.likes}</strong>
+                    <button onClick={handleLike} className={styles.likeButton}><strong>+ {story.likes}</strong></button>
                 </div>
                 <div className={styles.dateArea}>
                     Posted {timeSince(story.publish_date)}

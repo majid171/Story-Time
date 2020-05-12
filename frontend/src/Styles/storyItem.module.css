@@ -20,21 +20,9 @@
     padding-left: 35px;
 }
 
-.likeImage{
-    height: 25px;
-    width: 25px;
-    margin-left: 15px;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    /* margin-bottom: px; */
-}
-
 .bottomArea{
     display: flex;
-    /* position: absolute; */
-    /* flex-direction: column; */
     width: 100%;
-    /* background-color: red; */
     position: absolute;
     bottom: 10px;
 }
@@ -42,9 +30,7 @@
 .likeArea{
     position: flex;
     margin-left: 10px;
-    /* margin-bottom: 10px; */
     bottom: 0;
-    /* background-color: ivory; */
 }
 
 .likes{
@@ -78,5 +64,15 @@
 }
 
 .titleButton:focus{
+    outline: none;
+}
+
+.likeButton{
+    box-shadow: none;
+    background-color: white;
+    border: none;
+}
+
+.likeButton:focus{
     outline: none;
 }

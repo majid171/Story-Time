@@ -10,7 +10,7 @@ const Dashboard = ({ setAuth }) => {
 
     const [firstName, setFirstName] = useState("");
     const [userID, setUserID] = useState("");
-    const [storyList, setStoryList] = useState([{}]);
+    const [storyList, setStoryList] = useState([]);
     const [open, setOpen] = useState(false);
     const [createdStoryTitle, setCreatedStoryTitle] = useState('');
     const [createdStoryBody, setCreatedStoryBody] = useState('');
@@ -19,6 +19,7 @@ const Dashboard = ({ setAuth }) => {
     const [selectedStoryAuthorFirst, setSelectedStoryAuthorFirst] = useState('');
     const [selectedStoryAuthorLast, setSelectedStoryAuthorLast] = useState('');
     const [showStoryDiv, setShowStoryDiv] = useState(false);
+
 
     // Get the user info
     useEffect(() => {
@@ -30,6 +31,10 @@ const Dashboard = ({ setAuth }) => {
         if (userID === '') return;
         getStoryList();
     }, [userID]);
+
+    useEffect(() =>{
+        renderStoryListItems();
+    }, [storyList]);
 
     const getStoryList = async () => {
         try {
@@ -78,13 +83,13 @@ const Dashboard = ({ setAuth }) => {
     }
 
     const renderStoryListItems = () => {
-        if(storyList[0].story_id){
+        if (typeof storyList.map !== 'undefined') {
             return (
                 storyList.map((story, index) => (
-                    <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)}></StoryItem>
+                    <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story)}></StoryItem>
                 ))
             );
-        }        
+        }
     }
 
     const handlePostStory = async () => {
@@ -93,7 +98,7 @@ const Dashboard = ({ setAuth }) => {
         setCreatedStoryBody(createdStoryBody.trim());
         try {
             const url = Constants.backendURL + '/story/createStory';
-            const res = await fetch(url, {
+            await fetch(url, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -132,9 +137,49 @@ const Dashboard = ({ setAuth }) => {
         );
     }
 
+    const likeStory = async (story) => {
+        try {
+            const url = Constants.backendURL + '/story/toggleLike';
+            const story_id = story.story_id;
+            const user_id = userID;
+
+            const res = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    story_id,
+                    user_id
+                })
+            });
+
+            const parseRes = await res.json();
+            
+            let newStoryList = storyList;
+            
+            for(var i = 0; i < storyList.length; i++){
+                if(storyList[i].story_id === story.story_id){
+                    if(parseRes === 'liked'){
+                        storyList[i].likes = storyList[i].likes + 1;
+                    }
+                    else{
+                        storyList[i].likes = storyList[i].likes - 1;
+                    }
+                    break;
+                }
+            }
+
+            setStoryList([...newStoryList]);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     return (
         <div className={styles.container}>
-            <div><AuthHeader setAuth={setAuth}></AuthHeader></div>
+            <div><AuthHeader setAuth={setAuth} Page={Dashboard}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div className={styles.storyFeedContainer}>
                     <h6 className={styles.leftRightTitle}>Check out stories from people you follow</h6>
@@ -184,7 +229,7 @@ const Dashboard = ({ setAuth }) => {
                             </div>
                             <hr></hr>
                             <div className={styles.storyBodyContainer}>
-                                    {selectedStoryBody}
+                                {selectedStoryBody}
                             </div>
                         </div>}
                 </div>

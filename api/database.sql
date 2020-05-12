@@ -22,3 +22,9 @@ CREATE TABLE stories(
     publish_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     likes INTEGER DEFAULT 0
 );
+
+CREATE TABLE likes(
+    story_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    PRIMARY KEY(story_id, user_id)
+);

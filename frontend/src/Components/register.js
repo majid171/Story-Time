@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { TextField } from '@material-ui/core/';
 import styles from '../Styles/register.module.css';
 import Header from './header';
@@ -95,7 +95,6 @@ const Register = ({ setAuth }) => {
                     </div>
                     <TextField
                         required
-                        id="outlined-required"
                         label="Email"
                         variant="outlined"
                         style={textFieldStyle}
@@ -104,7 +103,6 @@ const Register = ({ setAuth }) => {
                     />
                     <TextField
                         required
-                        id="outlined-required"
                         label="Password"
                         type="password"
                         variant="outlined"

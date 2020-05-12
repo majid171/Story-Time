@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 import Dashboard from './Components/dashboard';
 import Login from './Components/login';
 import Register from './Components/register';
+import Authors from './Components/authors';
 import * as Constants from './constants.js';
 
 
@@ -45,6 +46,7 @@ function App() {
             <Route exact path="/login" render={props => !isAuthenticated ? (<Login {...props} setAuth={setAuth}/>) : (<Redirect to='/' />)}/>
             <Route exact path="/register" render={props => !isAuthenticated? (<Register {...props} setAuth={setAuth}/>): (<Redirect to='/login' />)}/>
             <Route exact path="/" render={props => isAuthenticated? (<Dashboard {...props} setAuth={setAuth}/>): (<Redirect to='/login'/>)}/>
+            <Route exact path="/authors" render={props => isAuthenticated? (<Authors {...props}/>): (<Redirect to='/login'/>)}/>
           </Switch>
         </div>
       </Router>
