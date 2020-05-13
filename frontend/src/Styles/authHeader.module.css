@@ -56,6 +56,9 @@
     text-decoration: underline;
 }
 
+.profileButton{
+    margin-left: 10px;
+}
 
 .buttonContainer {
     display: flex;
