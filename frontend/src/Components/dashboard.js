@@ -179,7 +179,7 @@ const Dashboard = ({ setAuth }) => {
 
     return (
         <div className={styles.container}>
-            <div><AuthHeader setAuth={setAuth} Page={Dashboard}></AuthHeader></div>
+            <div><AuthHeader setAuth={setAuth} Page={Dashboard} userID={userID}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div className={styles.storyFeedContainer}>
                     <h6 className={styles.leftRightTitle}>Check out stories from people you follow</h6>

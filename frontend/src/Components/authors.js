@@ -7,14 +7,31 @@ import * as Constants from '../constants';
 const Authors = ({ setAuth }) => {
 
     const [authorList, setAuthorList] = useState([]);
+    const [userID, setUserID] = useState("");
 
     useEffect(() => {
+        getInfo();
         getAuthors();
     }, []);
 
+    const getInfo = async () => {
+        try {
+            const url = Constants.backendURL + '/dashboard';
+            const response = await fetch(url, {
+                method: "GET",
+                credentials: 'include'
+            })
+
+            const parseRes = await response.json();
+            setUserID(parseRes.user_id);
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
     const getAuthors = async () => {
         try {
-            const url = Constants.backendURL + '/u/users';
+            const url = Constants.backendURL + '/users';
 
             const res = await fetch(url, {
                 method: 'GET',
@@ -43,7 +60,7 @@ const Authors = ({ setAuth }) => {
 
     return (
         <div className={styles.container}>
-            <div><AuthHeader setAuth={setAuth} Page={Authors}></AuthHeader></div>
+            <div><AuthHeader setAuth={setAuth} Page={Authors} userID={userID}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div><h5 style={{ marginTop: 20 }}>Check out our authors</h5></div>
                 <div className={styles.authorList}>
