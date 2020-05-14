@@ -64,8 +64,8 @@ const Login = ({ setAuth }) => {
                     <p className={styles.welcome}>Welcome Back!</p>
                     <TextField
                         required
-                        id="outlined-required"
                         label="Email"
+                        id="Email"
                         variant="outlined"
                         style={textFieldStyle}
                         value={email}
@@ -73,8 +73,8 @@ const Login = ({ setAuth }) => {
                     />
                     <TextField
                         required
-                        id="outlined-required"
                         label="Password"
+                        id="Password"
                         type="password"
                         variant="outlined"
                         style={textFieldStyle}

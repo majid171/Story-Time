@@ -43,7 +43,7 @@ router.post('/deleteStory', authorization, async (req, res) => {
 
 router.get('/getStoryList', authorization, async (req, res) => {
     try {
-        const user_id = req.query.id;
+        const user_id = req.user;
 
         if (!user_id || user_id === '') {
             res.sendStatus(401).json('ID blank');

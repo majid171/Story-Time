@@ -5,5 +5,21 @@
     right: 0;
     top: 0;
     bottom: 0;
-    grid-template-columns: 30% 50%;
+    grid-template-areas: 'header header header header header'
+                         'profile feed feed feed feed';
+    grid-template-rows: 60px 100%;
+}
+
+.headerContainer{
+    grid-area: header;
+}
+
+.profileContainer{
+    grid-area: profile;
+    background-color: ivory;
+}
+
+.feedContainer{
+    grid-area: feed;
+    background-color: khaki;
 }
