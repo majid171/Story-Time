@@ -19,11 +19,15 @@ const Dashboard = ({ setAuth }) => {
     const [selectedStoryAuthorFirst, setSelectedStoryAuthorFirst] = useState('');
     const [selectedStoryAuthorLast, setSelectedStoryAuthorLast] = useState('');
     const [showStoryDiv, setShowStoryDiv] = useState(false);
-
+    const [featuredStory, setFeaturedStory] = useState([]);
 
     // Get the user info
     useEffect(() => {
         getInfo();
+    }, []);
+
+    useEffect(() =>{
+        getFeaturedStory();
     }, []);
 
     // Get the story list
@@ -84,9 +88,31 @@ const Dashboard = ({ setAuth }) => {
         if (typeof storyList.map !== 'undefined') {
             return (
                 storyList.map((story, index) => (
-                    <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story)}></StoryItem>
+                    <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story, false)} isFeatured={false}></StoryItem>
                 ))
             );
+        }
+    }
+
+    const renderFeaturedStory = () =>{
+        if(!featuredStory[0]) return;
+        const story = featuredStory[0];
+        return(<StoryItem story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story, true)} isFeatured={true}></StoryItem>);
+    }
+
+    const getFeaturedStory = async() =>{
+        try {
+            const url = Constants.backendURL + '/story/getFeaturedStory';
+            const res = await fetch(url, {
+                method: 'GET',
+                credentials: 'include'
+            });
+
+            const parseRes = await res.json();
+            setFeaturedStory(parseRes)
+
+        } catch (error) {
+            console.error(error.message);
         }
     }
 
@@ -135,7 +161,7 @@ const Dashboard = ({ setAuth }) => {
         );
     }
 
-    const likeStory = async (story) => {
+    const likeStory = async (story, isFeatured) => {
         try {
             const url = Constants.backendURL + '/story/toggleLike';
             const story_id = story.story_id;
@@ -155,21 +181,37 @@ const Dashboard = ({ setAuth }) => {
 
             const parseRes = await res.json();
             
-            let newStoryList = storyList;
+            if(!isFeatured){
+                let newStoryList = storyList;
             
-            for(var i = 0; i < storyList.length; i++){
-                if(storyList[i].story_id === story.story_id){
-                    if(parseRes === 'liked'){
-                        storyList[i].likes = storyList[i].likes + 1;
+                for(var i = 0; i < storyList.length; i++){
+                    if(storyList[i].story_id === story.story_id){
+                        if(parseRes === 'liked'){
+                            storyList[i].likes = storyList[i].likes + 1;
+                        }
+                        else{
+                            storyList[i].likes = storyList[i].likes - 1;
+                        }
+                        break;
                     }
-                    else{
-                        storyList[i].likes = storyList[i].likes - 1;
-                    }
-                    break;
                 }
+    
+                setStoryList([...newStoryList]);
             }
-
-            setStoryList([...newStoryList]);
+            else{
+                console.log('we are liking the featured story');
+                let featured = featuredStory;
+                console.log(featured);
+                if(parseRes ==='liked'){
+                    featured[0].likes = featured[0].likes + 1;
+                }
+                else{
+                    featured[0].likes = featured[0].likes - 1;
+                }
+                
+                setFeaturedStory([...featured]);
+            }
+            
         } catch (error) {
             console.error(error.message);
         }
@@ -233,6 +275,7 @@ const Dashboard = ({ setAuth }) => {
                 </div>
                 <div className={styles.featuredContainer}>
                     <h6 className={styles.leftRightTitle}>Check out the featured story of the month</h6>
+                    {renderFeaturedStory()}
                 </div>
             </div>
         </div>

@@ -2,14 +2,16 @@ import React from 'react';
 import styles from '../Styles/storyItem.module.css';
 import moment from 'moment';
 
-const StoryItem = ({ story, handleClick, handleLike }) => {
+const StoryItem = ({ story, handleClick, handleLike, isFeatured }) => {
 
     const timeSince = (date) => {
         return (moment(date).fromNow());
     }
 
+    // console.log('The item received is', story);
+
     return (
-        <div className={styles.storyItem} >
+        <div className={isFeatured? styles.storyItemFeatured: styles.storyItem} >
             <span className={styles.title}>
                 <button className={styles.titleButton} onClick={handleClick}>{story.title}</button>
             </span>
