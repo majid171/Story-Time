@@ -4,7 +4,8 @@ import styles from '../Styles/PageNotFound.module.css';
 const PageNotFound = () =>{
     return(
         <div className={styles.container}>
-            404 Error
+            <div><h3>StoryTime</h3></div>
+            <div><h5>404 Error. Page not found...</h5></div>
         </div>
     );
 }
