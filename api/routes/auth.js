@@ -71,7 +71,6 @@ router.post('/login', validInfo, async(req, res) =>{
 });
 
 router.get('/logout', authorization, (req, res, next) =>{
-    console.log('trying to log out');
     res.clearCookie('token');
     res.json({
         message: 'Logged Out'

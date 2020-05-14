@@ -38,10 +38,8 @@ const Dashboard = ({ setAuth }) => {
 
     const getStoryList = async () => {
         try {
-            const params = new URLSearchParams({
-                id: userID
-            });
-            const url = Constants.backendURL + '/story/getStoryList?' + params.toString();
+
+            const url = Constants.backendURL + '/story/getStoryList';
 
             const res = await fetch(url, {
                 method: 'GET',
