@@ -41,6 +41,20 @@ router.post('/deleteStory', authorization, async (req, res) => {
     }
 });
 
+router.get('/getFeaturedStory', async(req, res) =>{
+    try {
+        let mostLikes = await pool.query('SELECT MAX(likes) as max FROM stories');
+        mostLikes = mostLikes.rows[0].max;
+
+        const myRes = await pool.query('SELECT s.*, u.first_name, u.last_name from stories s join users u on s.user_id = u.user_id where s.likes = $1 limit 1', [mostLikes]);
+
+        res.status(200).json(myRes.rows);
+    } catch (error) {   
+        console.error(error.message);
+        res.status(500).json('Server Error');
+    }
+});
+
 router.get('/getStoryList', authorization, async (req, res) => {
     try {
         const user_id = req.user;

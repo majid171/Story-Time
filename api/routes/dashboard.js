@@ -12,7 +12,7 @@ router.get('/', authorization, async(req, res) =>{
     }
 });
 
-router.post('/follow', async(req, res) =>{
+router.post('/follow', authorization, async(req, res) =>{
     try {
         const {user_id, friend_id} = req.body;
 
