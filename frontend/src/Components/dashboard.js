@@ -199,7 +199,6 @@ const Dashboard = ({ setAuth }) => {
                 setStoryList([...newStoryList]);
             }
             else{
-                console.log('we are liking the featured story');
                 let featured = featuredStory;
                 console.log(featured);
                 if(parseRes ==='liked'){

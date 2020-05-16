@@ -5,8 +5,8 @@
     right: 0;
     top: 0;
     bottom: 0;
-    grid-template-areas: 'header header header header header'
-                         'profile feed feed feed feed';
+    grid-template-areas: "header    header  header  header  header  header  header  header  header  header  header"
+                         "storyList   mid    mid    mid    mid    mid    mid    mid    mid    mid    mid";
     grid-template-rows: 60px 100%;
 }
 
@@ -14,12 +14,87 @@
     grid-area: header;
 }
 
-.profileContainer{
-    grid-area: profile;
-    background-color: ivory;
+.storyContainer{
+    grid-area: storyList;
+
 }
 
-.feedContainer{
-    grid-area: feed;
-    background-color: khaki;
+.middleContainer{
+    grid-area: mid;
+    display: grid;
+    /* background-color: khaki; */
+    grid-template-rows: 20% 80%;
+    border-left: 1px solid #c9c1c1;
+}
+
+.profileContainer{
+    /* background-color: red; */
+    border-bottom: 1px solid #c9c1c1;
+    display: grid;
+    grid-template-columns: 20% 50%;
+}
+
+.profileInfo{
+    /* background-color: lightcoral; */
+}
+
+.profileButtons{
+/* background-color: lightpink; */
+    display: grid;
+}
+
+.infoButton{
+    border: none;
+    background-color: white;
+    margin: 10px;
+    box-shadow: none;
+    color: #1DA1F2;
+    width: 150px;
+    font-size: 110%;
+}
+
+.followButton{
+    background-color: #1DA1F2;
+    box-shadow: none;
+    border: none;
+    margin: 10px;
+    width: 150px;
+    font-size: 110%;
+    color: white;
+    border-radius: 20px;
+}
+
+.unFollowButton{
+    background-color: white;
+    box-shadow: none;
+    border: 2px solid #1DA1F2;
+    margin: 10px;
+    width: 150px;
+    font-size: 110%;
+    color: #1DA1F2;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+
+.unFollowButton:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.unFollowButton:hover{
+    background-color: #1DA1F2;
+    box-shadow: none;
+    border: 2px solid #1DA1F2;
+    margin: 10px;
+    width: 150px;
+    font-size: 110%;
+    color: white;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+
+
+
+.storyBodyContainer{
+    /* background-color: blue; */
 }
