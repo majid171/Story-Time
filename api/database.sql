@@ -5,7 +5,8 @@ CREATE TABLE users(
     first_name varchar(255) NOT NULL,
     last_name varchar(255) NOT NULL,
     user_email varchar(255) NOT NULL,
-    user_password varchar(255) NOT NULL
+    user_password varchar(255) NOT NULL,
+    created_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE friendship(

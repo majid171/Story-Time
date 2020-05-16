@@ -8,11 +8,13 @@ import Profile from './profile';
 
 const AuthHeader = ({ setAuth, Page, userID }) => {
 
+    
+
     const buttonStyle = {
         color: '#444444'
     }
 
-    const profileURL = '/users/' + userID;
+    // const profileURL = '/u/' + userID;
 
     const logout = async (e) => {
         e.preventDefault();
@@ -31,8 +33,8 @@ const AuthHeader = ({ setAuth, Page, userID }) => {
             </div>
             <div className={styles.leftButtonContainer}>
                 <button className={styles.homeButton}><Link style={buttonStyle} to='/'>{Page === Dashboard ? <strong>Home</strong> : 'Home'}</Link></button>
-                <button className={styles.authorButton}><Link style={buttonStyle} to='/users'>{Page === Authors ? <strong>Authors</strong> : 'Authors'}</Link></button>
-                <button className={styles.profileButton}><Link style={buttonStyle} to={profileURL}>{Page === Profile ? <strong>Profile</strong> : 'Profile'}</Link></button>
+                <button className={styles.authorButton}><Link style={buttonStyle} to='/u/users'>{Page === Authors ? <strong>Authors</strong> : 'Authors'}</Link></button>
+                <button className={styles.profileButton}><Link style={buttonStyle} to='/u/profile'>{Page === Profile ? <strong>Profile</strong> : 'Profile'}</Link></button>
             </div>
             <div className={styles.buttonContainer}>
                 <div className={styles.logoutButtonContainer}>

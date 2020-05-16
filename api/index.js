@@ -15,7 +15,7 @@ app.use(CookieParser());
 
 // Routes
 app.use('/auth', require('./routes/auth'));
-app.use('/users', require('./routes/users'));
+app.use('/u', require('./routes/users'));
 app.use('/dashboard', require('./routes/dashboard'));
 app.use('/story', require('./routes/story'));
 

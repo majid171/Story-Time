@@ -3,6 +3,7 @@ import styles from '../Styles/authors.module.css';
 import AuthHeader from './authHeader';
 import AuthorCard from './authorCard';
 import * as Constants from '../constants';
+import { Redirect } from 'react-router-dom';
 
 const Authors = ({ setAuth }) => {
 
@@ -31,7 +32,7 @@ const Authors = ({ setAuth }) => {
 
     const getAuthors = async () => {
         try {
-            const url = Constants.backendURL + '/users';
+            const url = Constants.backendURL + '/u/users';
 
             const res = await fetch(url, {
                 method: 'GET',
