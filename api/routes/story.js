@@ -65,6 +65,8 @@ router.get('/getStoryList', authorization, async (req, res) => {
 
         const friendIDS = await pool.query('SELECT friend_id FROM friendship WHERE user_id = $1', [user_id]);
         const result = friendIDS.rows.map(a => a.friend_id);
+        
+        if(!result.length) res.json('No stories found');
 
         let query = "SELECT s.*, u.first_name, u.last_name FROM stories s JOIN users u on u.user_id = s.user_id WHERE s.user_id IN (";
 
@@ -74,8 +76,8 @@ router.get('/getStoryList', authorization, async (req, res) => {
                 query += ',';
             }
         }
-        query += ') ORDER BY s.publish_date DESC';
-
+        query += ") ORDER BY s.publish_date DESC";
+        console.log(query);
         const myRes = await pool.query(query);
         const rows = myRes.rows;
         res.json(rows);

@@ -7,7 +7,6 @@ import Login from './Components/login';
 import Register from './Components/register';
 import Authors from './Components/authors';
 import Profile from './Components/profile';
-import Testing from './Components/testing';
 import PageNotFound from './Components/PageNotFound';
 import * as Constants from './constants.js';
 

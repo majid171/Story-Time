@@ -7,7 +7,7 @@ import StoryItem from './storyItem';
 import moment from 'moment';
 
 
-const Profile = ({ setAuth, match:{params:{id}} }) => {
+const Profile = ({ setAuth, match: { params: { id } } }) => {
 
     const [loading, setLoading] = useState(true);
     const [valid, setValid] = useState(true);
@@ -20,10 +20,11 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
     const [followerList, setFollowerList] = useState([]);
     const [loggedUser, setLoggedUser] = useState("");
     const [showFollowButton, setShowFollowButton] = useState(false);
+    const [doesFollow, setDoesFollow] = useState();
 
     useEffect(() => {
         getInfo();
-        setShowFollowButton(id === loggedUser? true: false);
+        setShowFollowButton(id !== loggedUser ? true : false);
     }, [id]);
 
     const getInfo = async () => {
@@ -40,7 +41,7 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
             }
 
             const parseRes = await res.json();
-
+            setDoesFollow(parseRes.doesFollow);
             setFirst(parseRes.first_name);
             setLast(parseRes.last_name);
             setCreatedDate(parseRes.created_date);
@@ -59,7 +60,7 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
         return (moment(date).fromNow());
     }
 
-    
+
 
     const handleClick = () => {
 
@@ -111,15 +112,33 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
         }
     }
 
-    const togglefollow = async() =>{
-        
+    const togglefollow = async () => {
+        const url = Constants.backendURL + '/u/toggleFollow';
+
+        const res = await fetch(url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: { "Content-type": "application/json" },
+            body: JSON.stringify({
+                logged_id: loggedUser,
+                friend_id: id
+            })
+        });
+
+        const parseRes = await res.json();
+        if (parseRes === 'Follow') {
+            setDoesFollow(true);
+        }
+        else {
+            setDoesFollow(false);
+        }
     }
 
     return (valid === false ? <Redirect to={{ pathname: '/404' }} /> :
         <div className={styles.container}>
             <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser}></AuthHeader></div>
             <div className={styles.storyContainer}>
-                <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser? 'your': first} stories</h5>
+                <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser ? 'your' : first} stories</h5>
                 {renderStoryList()}
             </div>
             <div className={styles.middleContainer}>
@@ -131,7 +150,7 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
                     <div className={styles.profileButtons}>
                         <button className={styles.infoButton}>Followers</button>
                         <button className={styles.infoButton}>Following</button>
-                        {<button style={showFollowButton? {display: "none"} : {}} className={styles.unFollowButton}>Unfollow</button>}
+                        {<button style={showFollowButton ? {} : { display: "none" }} className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>}
                     </div>
                 </div>
                 <div className={styles.storyBodyContainer}>

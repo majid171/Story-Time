@@ -36,16 +36,16 @@ const Dashboard = ({ setAuth }) => {
         getStoryList();
     }, [userID]);
 
-    useEffect(() =>{
-        renderStoryListItems();
-    }, [storyList]);
+    // useEffect(() =>{
+    //     renderStoryListItems();
+    // }, [storyList]);
 
     const getStoryList = async () => {
         try {
 
             const url = Constants.backendURL + '/story/getStoryList';
 
-            const res = await fetch(url, {
+            await fetch(url, {
                 method: 'GET',
                 credentials: 'include',
 
@@ -53,7 +53,7 @@ const Dashboard = ({ setAuth }) => {
                 .then((res) => {
                     return res.json();
                 }).then((data) => {
-                    setStoryList(data);
+                    if(data) setStoryList(data);
                 });
         } catch (error) {
             console.error(error.message);

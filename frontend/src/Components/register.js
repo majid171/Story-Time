@@ -70,7 +70,7 @@ const Register = ({ setAuth }) => {
         <div className={styles.container}>
             <div><Header></Header></div>
             <div className={styles.outerContainer}>
-                <form className={styles.formContainer} onSubmit={onSubmitForm} autoComplete={true}>
+                <form className={styles.formContainer} onSubmit={onSubmitForm} autoComplete={"on"}>
                     <p className={styles.formTitle}>StoryTime</p>
                     <div>
                         <TextField

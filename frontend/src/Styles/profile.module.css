@@ -58,7 +58,7 @@
     text-decoration: underline;
 }
 
-.followButton{
+.unFollowButton{
     background-color: #1DA1F2;
     box-shadow: none;
     border: none;
@@ -67,9 +67,10 @@
     font-size: 110%;
     color: white;
     border-radius: 20px;
+    transition: 0.2s;
 }
 
-.unFollowButton{
+.followButton{
     background-color: white;
     box-shadow: none;
     border: 2px solid #1DA1F2;
@@ -81,15 +82,19 @@
     transition: 0.2s;
 }
 
+.followButton:focus{
+    outline: none;
+    box-shadow: none;
+}
+
 .unFollowButton:focus{
     outline: none;
     box-shadow: none;
 }
 
-.unFollowButton:hover{
+.followButton:hover{
     background-color: #1DA1F2;
     box-shadow: none;
-    border: 2px solid #1DA1F2;
     margin: 10px;
     width: 150px;
     font-size: 110%;
@@ -98,7 +103,17 @@
     transition: 0.2s;
 }
 
-
+.unFollowButton:hover{
+    background-color: rgb(11, 141, 221);
+    box-shadow: none;
+    border: none;
+    margin: 10px;
+    width: 150px;
+    font-size: 110%;
+    color: white;
+    border-radius: 20px;
+    transition: 0.2s;
+}
 
 .storyBodyContainer{
     /* background-color: blue; */

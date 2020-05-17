@@ -40,6 +40,8 @@ router.get('/:id', authorization, async(req, res) =>{
 
         // myRes = await pool.query('SELECT COUNT(*) as likes_count FROM likes L WHERE L.user_id = $1', [id]);
         // response.likes_count = myRes.rows[0].likes_count;
+        myRes = await pool.query('SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2', [req.user, id]);
+        response.doesFollow = myRes.rows[0]? true: false;
 
         myRes = await pool.query('SELECT f.friend_id, u.first_name, u.last_name from friendship f join users u on f.friend_id = u.user_id where f.user_id = $1', [id]);
         response.following = myRes.rows;
@@ -58,10 +60,11 @@ router.get('/:id', authorization, async(req, res) =>{
     }
 });
 
-router.post('/toggleFollow', async(req, res) =>{
+router.post('/toggleFollow', authorization, async(req, res) =>{
     try {
 
         const {logged_id, friend_id} = req.body;
+        console.log(req.body);
 
         let friendship = await pool.query("SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2", [logged_id, friend_id]);
 
@@ -71,7 +74,7 @@ router.post('/toggleFollow', async(req, res) =>{
         }
         else{
             await pool.query('INSERT INTO friendship VALUES($1, $2)', [logged_id, friend_id]);
-            res.status(200).json('follow');
+            res.status(200).json('Follow');
         }
     } catch (error) {
         console.error(error.message);

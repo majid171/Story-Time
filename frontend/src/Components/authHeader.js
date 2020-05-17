@@ -4,7 +4,7 @@ import * as Constants from '../constants';
 import { Link } from 'react-router-dom';
 import Dashboard from './dashboard';
 import Authors from './authors';
-import Profile from './profile';
+// import Profile from './profile';
 
 const AuthHeader = ({ setAuth, Page, userID }) => {
 
