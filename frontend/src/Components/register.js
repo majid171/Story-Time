@@ -75,7 +75,6 @@ const Register = ({ setAuth }) => {
                     <div>
                         <TextField
                             required
-                            id="outlined-required"
                             label="First Name"
                             variant="outlined"
                             style={nameTextFieldStyle}
@@ -85,7 +84,6 @@ const Register = ({ setAuth }) => {
                         />
                         <TextField
                             required
-                            id="outlined-required"
                             label="Last Name"
                             variant="outlined"
                             style={nameTextFieldStyle}
@@ -110,7 +108,7 @@ const Register = ({ setAuth }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <div className={styles.error} className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
+                    <div className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
                         {error}
                     </div>
                     <span>

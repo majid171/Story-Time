@@ -41,6 +41,7 @@
 .profileButtons{
 /* background-color: lightpink; */
     display: grid;
+    grid-template-rows: 60px 60px 60px;
 }
 
 .infoButton{
@@ -51,6 +52,10 @@
     color: #1DA1F2;
     width: 150px;
     font-size: 110%;
+}
+
+.infoButton:hover{
+    text-decoration: underline;
 }
 
 .followButton{

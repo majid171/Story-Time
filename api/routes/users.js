@@ -30,6 +30,7 @@ router.get('/:id', authorization, async(req, res) =>{
         }
 
         var response = {};
+        response.logged_user_id = req.user;
 
         myRes = await pool.query('SELECT u.first_name, u.last_name, u.created_date, count(s.story_id) as story_count FROM users u left join stories s on u.user_id = s.user_id where u.user_id = $1 group by(u.first_name, u.last_name, u.created_date)', [id]);
         response.first_name = myRes.rows[0].first_name;
@@ -48,7 +49,7 @@ router.get('/:id', authorization, async(req, res) =>{
 
         myRes = await pool.query('select u.first_name, u.last_name, s.story_id, s.title, s.body, s.publish_date, s.likes from users u join stories s on u.user_id = s.user_id where u.user_id = $1', [id]);
         response.story_list = myRes.rows;
-        console.log(response);
+        // console.log(response);
 
         res.status(200).json(response);
     } catch (error) {
