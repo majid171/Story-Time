@@ -3,7 +3,6 @@ import styles from '../Styles/authors.module.css';
 import AuthHeader from './authHeader';
 import AuthorCard from './authorCard';
 import * as Constants from '../constants';
-import { Redirect } from 'react-router-dom';
 
 const Authors = ({ setAuth }) => {
 
@@ -53,7 +52,9 @@ const Authors = ({ setAuth }) => {
         if (typeof authorList.map !== 'undefined') {
             return (
                 authorList.map((author, index) => (
-                    <AuthorCard key={index} author={author}></AuthorCard>
+                    <a key={index} href={'/u/' + author.user_id}>
+                        <AuthorCard author={author}></AuthorCard>
+                    </a>
                 ))
             );
         }

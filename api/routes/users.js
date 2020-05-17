@@ -14,7 +14,7 @@ router.get('/users', authorization, async(req, res) =>{
     }
 });
 
-router.get('/users/:id', authorization, async(req, res) =>{
+router.get('/:id', authorization, async(req, res) =>{
     try {
         const id = req.params.id;
 
