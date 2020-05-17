@@ -7,8 +7,9 @@ import StoryItem from './storyItem';
 import moment from 'moment';
 
 
-const Profile = ({ setAuth, userID }) => {
+const Profile = ({ setAuth, match:{params:{id}} }) => {
 
+    const [loading, setLoading] = useState(false);
     const [valid, setValid] = useState(true);
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -28,7 +29,8 @@ const Profile = ({ setAuth, userID }) => {
 
     const getInfo = async () => {
         try {
-            const url = Constants.backendURL + '/u/users/' + userID;
+            const url = Constants.backendURL + '/u/' + id;
+            console.log(url);
             const res = await fetch(url, {
                 method: 'GET',
                 credentials: 'include'
@@ -49,7 +51,7 @@ const Profile = ({ setAuth, userID }) => {
             setStoryList(parseRes.story_list);
             setFollowerList(parseRes.followers);
             setFollowingList(parseRes.following);
-
+            setLoading(true);
         } catch (error) {
             console.error(error.message);
             return false;
@@ -71,7 +73,7 @@ const Profile = ({ setAuth, userID }) => {
                 },
                 body: JSON.stringify({
                     story_id: story.story_id,
-                    user_id: userID
+                    user_id: id
                 })
             });
             const parseRes = await res.json();
@@ -97,7 +99,7 @@ const Profile = ({ setAuth, userID }) => {
     }
 
     const renderStoryList = () => {
-        if (typeof storyList.map !== 'undefined') {
+        if (loading && typeof storyList.map !== 'undefined') {
             return (
                 storyList.map((story, index) => (
                     <StoryItem key={index} story={story} handleClick={() => handleClick(story)} handleLike={() => handleLike(story)} isFeatured={false}></StoryItem>
