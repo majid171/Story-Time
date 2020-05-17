@@ -58,4 +58,24 @@ router.get('/:id', authorization, async(req, res) =>{
     }
 });
 
+router.post('/toggleFollow', async(req, res) =>{
+    try {
+
+        const {logged_id, friend_id} = req.body;
+
+        let friendship = await pool.query("SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2", [logged_id, friend_id]);
+
+        if(friendship.rows[0]){
+            await pool.query('DELETE FROM friendship WHERE user_id = $1 AND friend_id = $2', [logged_id, friend_id]);
+            res.status(200).json('Unfollow');
+        }
+        else{
+            await pool.query('INSERT INTO friendship VALUES($1, $2)', [logged_id, friend_id]);
+            res.status(200).json('follow');
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+});
+
 module.exports = router;

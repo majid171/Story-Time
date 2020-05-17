@@ -70,13 +70,14 @@ const Register = ({ setAuth }) => {
         <div className={styles.container}>
             <div><Header></Header></div>
             <div className={styles.outerContainer}>
-                <form className={styles.formContainer} onSubmit={onSubmitForm}>
+                <form className={styles.formContainer} onSubmit={onSubmitForm} autoComplete={true}>
                     <p className={styles.formTitle}>StoryTime</p>
                     <div>
                         <TextField
                             required
                             label="First Name"
                             variant="outlined"
+                            id="First Name"
                             style={nameTextFieldStyle}
                             value={first_name}
                             onChange={e => setFirstName(e.target.value)}
@@ -86,6 +87,7 @@ const Register = ({ setAuth }) => {
                             required
                             label="Last Name"
                             variant="outlined"
+                            id="Last Name"
                             style={nameTextFieldStyle}
                             value={last_name}
                             onChange={(e) => setLastName(e.target.value)}
@@ -95,6 +97,7 @@ const Register = ({ setAuth }) => {
                         required
                         label="Email"
                         variant="outlined"
+                        id="Email"
                         style={textFieldStyle}
                         value={email}
                         onChange={e => setEmail(e.target.value)}
@@ -103,6 +106,7 @@ const Register = ({ setAuth }) => {
                         required
                         label="Password"
                         type="password"
+                        id="Password"
                         variant="outlined"
                         style={textFieldStyle}
                         value={password}
