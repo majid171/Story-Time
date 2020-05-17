@@ -59,7 +59,7 @@ const Login = ({ setAuth }) => {
                 <Header></Header>
             </div>
             <div className={styles.outerContainer}>
-                <form className={styles.formContainer} onSubmit={onSubmitForm} autoComplete={true}>
+                <form className={styles.formContainer} onSubmit={onSubmitForm} autoComplete={"on"}>
                     <p className={styles.formTitle}>StoryTime</p>
                     <p className={styles.welcome}>Welcome Back!</p>
                     <TextField
@@ -81,10 +81,10 @@ const Login = ({ setAuth }) => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <div className={styles.error} className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
+                    <div className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
                         {error}
                     </div>
-                    <a href="#" className={styles.forgot}>Forgot Password?</a>
+                    {/* <a href="#" className={styles.forgot}>Forgot Password?</a> */}
                     <span className={styles.registerText}>
                         Don't have an account?
                         <a href={Constants.frontendURL + '/register'} > Sign Up</a>

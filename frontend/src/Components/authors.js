@@ -33,7 +33,7 @@ const Authors = ({ setAuth }) => {
         try {
             const url = Constants.backendURL + '/u/users';
 
-            const res = await fetch(url, {
+            await fetch(url, {
                 method: 'GET',
                 credentials: 'include',
             })
