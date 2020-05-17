@@ -59,7 +59,7 @@ const Login = ({ setAuth }) => {
                 <Header></Header>
             </div>
             <div className={styles.outerContainer}>
-                <form className={styles.formContainer} onSubmit={onSubmitForm}>
+                <form className={styles.formContainer} onSubmit={onSubmitForm} autoComplete={true}>
                     <p className={styles.formTitle}>StoryTime</p>
                     <p className={styles.welcome}>Welcome Back!</p>
                     <TextField

@@ -19,9 +19,11 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
     const [followingList, setFollowingList] = useState([]);
     const [followerList, setFollowerList] = useState([]);
     const [loggedUser, setLoggedUser] = useState("");
+    const [showFollowButton, setShowFollowButton] = useState(false);
 
     useEffect(() => {
         getInfo();
+        setShowFollowButton(id === loggedUser? true: false);
     }, [id]);
 
     const getInfo = async () => {
@@ -109,6 +111,10 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
         }
     }
 
+    const togglefollow = async() =>{
+        
+    }
+
     return (valid === false ? <Redirect to={{ pathname: '/404' }} /> :
         <div className={styles.container}>
             <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser}></AuthHeader></div>
@@ -125,7 +131,7 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
                     <div className={styles.profileButtons}>
                         <button className={styles.infoButton}>Followers</button>
                         <button className={styles.infoButton}>Following</button>
-                        {<button style={id === loggedUser? {display: "none"} : {}} className={styles.unFollowButton}>Unfollow</button>}
+                        {<button style={showFollowButton? {display: "none"} : {}} className={styles.unFollowButton}>Unfollow</button>}
                     </div>
                 </div>
                 <div className={styles.storyBodyContainer}>

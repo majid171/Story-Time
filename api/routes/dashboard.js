@@ -12,32 +12,4 @@ router.get('/', authorization, async(req, res) =>{
     }
 });
 
-router.post('/follow', async(req, res) =>{
-    try {
-        const {user_id, friend_id} = req.body;
-
-        await pool.query('INSERT INTO friendship VALUES($1, $2)', [user_id, friend_id]);
-        res.json({
-            message: 'Follow Successful'
-        });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json('Server Error');
-    }
-});
-
-router.post('/unFollow', authorization, async(req, res) =>{
-    try {
-        const {user_id, friend_id} = req.body;
-
-        await pool.query('DELETE FROM friendship WHERE user_id = $1 AND friend_id = $2', [user_id, friend_id]);
-        res.json({
-            message: 'UnFollow Successful'
-        });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).json('Server Error');
-    }
-});
-
 module.exports = router;
