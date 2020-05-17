@@ -9,7 +9,7 @@ import moment from 'moment';
 
 const Profile = ({ setAuth, match:{params:{id}} }) => {
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [valid, setValid] = useState(true);
     const [first, setFirst] = useState("");
     const [last, setLast] = useState("");
@@ -18,19 +18,15 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
     const [storyList, setStoryList] = useState([]);
     const [followingList, setFollowingList] = useState([]);
     const [followerList, setFollowerList] = useState([]);
+    const [loggedUser, setLoggedUser] = useState("");
 
     useEffect(() => {
         getInfo();
-    }, []);
-
-    const timeSince = (date) => {
-        return (moment(date).fromNow());
-    }
+    }, [id]);
 
     const getInfo = async () => {
         try {
             const url = Constants.backendURL + '/u/' + id;
-            console.log(url);
             const res = await fetch(url, {
                 method: 'GET',
                 credentials: 'include'
@@ -42,7 +38,6 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
             }
 
             const parseRes = await res.json();
-            console.log(parseRes);
 
             setFirst(parseRes.first_name);
             setLast(parseRes.last_name);
@@ -51,12 +46,18 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
             setStoryList(parseRes.story_list);
             setFollowerList(parseRes.followers);
             setFollowingList(parseRes.following);
-            setLoading(true);
+            setLoggedUser(parseRes.logged_user_id);
+            setLoading(false);
         } catch (error) {
             console.error(error.message);
-            return false;
         }
     }
+
+    const timeSince = (date) => {
+        return (moment(date).fromNow());
+    }
+
+    
 
     const handleClick = () => {
 
@@ -99,7 +100,7 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
     }
 
     const renderStoryList = () => {
-        if (loading && typeof storyList.map !== 'undefined') {
+        if (!loading && typeof storyList.map !== 'undefined') {
             return (
                 storyList.map((story, index) => (
                     <StoryItem key={index} story={story} handleClick={() => handleClick(story)} handleLike={() => handleLike(story)} isFeatured={false}></StoryItem>
@@ -110,9 +111,9 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
 
     return (valid === false ? <Redirect to={{ pathname: '/404' }} /> :
         <div className={styles.container}>
-            <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile}></AuthHeader></div>
+            <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser}></AuthHeader></div>
             <div className={styles.storyContainer}>
-                <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out your stories</h5>
+                <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser? 'your': first} stories</h5>
                 {renderStoryList()}
             </div>
             <div className={styles.middleContainer}>
@@ -124,7 +125,7 @@ const Profile = ({ setAuth, match:{params:{id}} }) => {
                     <div className={styles.profileButtons}>
                         <button className={styles.infoButton}>Followers</button>
                         <button className={styles.infoButton}>Following</button>
-                        <button className={styles.unFollowButton}>Unfollow</button>
+                        {<button style={id === loggedUser? {display: "none"} : {}} className={styles.unFollowButton}>Unfollow</button>}
                     </div>
                 </div>
                 <div className={styles.storyBodyContainer}>
