@@ -62,7 +62,7 @@ const Authors = ({ setAuth }) => {
 
     return (
         <div className={styles.container}>
-            <div><AuthHeader setAuth={setAuth} Page={Authors} userID={userID}></AuthHeader></div>
+            <div><AuthHeader setAuth={setAuth} Page={Authors} userID={userID} isProfile={false}></AuthHeader></div>
             <div className={styles.bodyContainer}>
                 <div><h5 style={{ marginTop: 20 }}>Check out our authors</h5></div>
                 <div className={styles.authorList}>

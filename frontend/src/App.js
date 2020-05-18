@@ -41,7 +41,7 @@ class App extends Component {
     }
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.isAuth();
   }
 
@@ -63,29 +63,7 @@ class App extends Component {
         </Router>
       );
     }
-    
   }
-
-  // return (
-  //   <Router>
-  //     <Switch>
-  //       <Route exact path="/login" render={props => !isAuthenticated ? (<Login {...props} setAuth={setAuth} isAuth={isAuthenticated} />) : (<Redirect to='/' />)} />
-  // <Route exact path="/register" render={props => !isAuthenticated ? (<Register {...props} setAuth={setAuth} />) : (<Redirect to='/login' />)} />
-  // <Route exact path="/" render={props => isAuthenticated ? (<Dashboard {...props} setAuth={setAuth} />) : (<Redirect to='/login' />)} />
-  // <Route exact path="/u/users" render={props => isAuthenticated ? (<Authors {...props} setAuth={setAuth} />) : (<Redirect to='/login' />)} />
-  // <Route exact path="/u/:id" render={props => isAuthenticated ? (<Profile {...props} setAuth={setAuth} />) : <Redirect to='/login' />} />
-  // <Route path="*" render={props => <PageNotFound {...props} />} />
-  //     </Switch>
-      /* <Switch>
-        <Route exact path="/login" render={props => <Login {...props} setAuth={setAuth} />} />
-        <Route exact path="/register" render={props => <Register {...props} setAuth={setAuth} />} />
-        <Route exact path="/" render={props => <Dashboard {...props} setAuth={setAuth} />} />
-        <Route exact path="/u/users" render={props => <Authors {...props} setAuth={setAuth} />} />
-        <Route exact path="/u/:id" render={props => <Profile {...props} setAuth={setAuth} />} />
-        <Route path="*" render={props => <PageNotFound {...props} />} />
-      </Switch> */
-    // </Router>
-  // );
 }
 
 export default App;
