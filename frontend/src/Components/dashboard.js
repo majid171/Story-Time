@@ -36,10 +36,6 @@ const Dashboard = ({ setAuth }) => {
         getStoryList();
     }, [userID]);
 
-    // useEffect(() =>{
-    //     renderStoryListItems();
-    // }, [storyList]);
-
     const getStoryList = async () => {
         try {
 
@@ -66,7 +62,7 @@ const Dashboard = ({ setAuth }) => {
             const response = await fetch(url, {
                 method: "GET",
                 credentials: 'include'
-            })
+            });
 
             const parseRes = await response.json();
             setFirstName(parseRes.first_name);
