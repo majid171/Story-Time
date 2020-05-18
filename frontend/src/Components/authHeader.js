@@ -4,9 +4,9 @@ import * as Constants from '../constants';
 import { Link } from 'react-router-dom';
 import Dashboard from './dashboard';
 import Authors from './authors';
-// import Profile from './profile';
+import Profile from './profile';
 
-const AuthHeader = ({ setAuth, Page, userID }) => {
+const AuthHeader = ({ setAuth, Page, userID, isProfile }) => {
 
     const buttonStyle = {
         color: '#444444'
@@ -29,9 +29,9 @@ const AuthHeader = ({ setAuth, Page, userID }) => {
             </div>
             <div className={styles.leftButtonContainer}>
                 <button className={styles.homeButton}><Link style={buttonStyle} to='/'>{Page === Dashboard ? <strong>Home</strong> : 'Home'}</Link></button>
-                <button className={styles.authorButton}><Link style={buttonStyle} to='/u/users'>{Page === Authors ? <strong>Authors</strong> : 'Authors'}</Link></button>
-                {/* <button className={styles.profileButton}><Link style={buttonStyle} to='/u/profile'>{Page === Profile ? <strong>Profile</strong> : 'Profile'}</Link></button> */}
-                <button className={styles.profileButton}><Link style={buttonStyle} to={'/u/' + userID}>Profile</Link></button>
+                <button className={styles.authorButton}><Link style={buttonStyle} to='/u/users'>{Page === Authors? <strong>Authors</strong> : 'Authors'}</Link></button>
+                <button className={styles.profileButton}><Link style={buttonStyle} to={'/u/' + userID}>{Page === Profile && isProfile? <strong>Profile</strong> : 'Profile'}</Link></button>
+                {/* <button className={styles.profileButton}><Link style={buttonStyle} to={'/u/' + userID}>Profile</Link></button> */}
             </div>
             <div className={styles.buttonContainer}>
                 <div className={styles.logoutButtonContainer}>

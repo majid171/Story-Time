@@ -25,7 +25,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     useEffect(() => {
         getInfo();
         setShowFollowButton(id !== loggedUser ? true : false);
-    }, [id]);
+    }, [id, loggedUser]);
 
     const getInfo = async () => {
         try {
@@ -134,9 +134,16 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
         }
     }
 
-    return (valid === false ? <Redirect to={{ pathname: '/404' }} /> :
-        <div className={styles.container}>
-            <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser}></AuthHeader></div>
+    if(valid === false){
+        return(<Redirect to={{ pathname: '/404' }} />);
+    }
+    else if(loading){
+        return(<div></div>);
+    }
+    else{
+        return(
+            <div className={styles.container}>
+            <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser} isProfile={!showFollowButton}></AuthHeader></div>
             <div className={styles.storyContainer}>
                 <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser ? 'your' : first} stories</h5>
                 {renderStoryList()}
@@ -150,6 +157,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                     <div className={styles.profileButtons}>
                         <button className={styles.infoButton}>Followers</button>
                         <button className={styles.infoButton}>Following</button>
+                        {/* {showFollowButton? <button className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>: ''} */}
                         {<button style={showFollowButton ? {} : { display: "none" }} className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>}
                     </div>
                 </div>
@@ -158,7 +166,34 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                 </div>
             </div>
         </div>
-    );
+        );
+    }
+
+    // return (valid === false ? <Redirect to={{ pathname: '/404' }} /> :
+    //     <div className={styles.container}>
+    //         <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser}></AuthHeader></div>
+    //         <div className={styles.storyContainer}>
+    //             <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser ? 'your' : first} stories</h5>
+    //             {renderStoryList()}
+    //         </div>
+    //         <div className={styles.middleContainer}>
+    //             <div className={styles.profileContainer}>
+    //                 <div className={styles.profileInfo}>
+    //                     <h1 style={{ fontWeight: 40, color: "#444444", margin: 10 }}>{first} {last}</h1>
+    //                     <p style={{ color: "#A9A9A9", marginLeft: 30 }}>Joined {timeSince(createdDate)} <br></br>Stories: {storyCount}</p>
+    //                 </div>
+    //                 <div className={styles.profileButtons}>
+    //                     <button className={styles.infoButton}>Followers</button>
+    //                     <button className={styles.infoButton}>Following</button>
+    //                     {<button style={showFollowButton ? {} : { display: "none" }} className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>}
+    //                 </div>
+    //             </div>
+    //             <div className={styles.storyBodyContainer}>
+
+    //             </div>
+    //         </div>
+    //     </div>
+    // );
 }
 
 export default Profile;
