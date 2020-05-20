@@ -28,10 +28,9 @@ const AuthHeader = ({ setAuth, Page, userID, isProfile }) => {
                 <img alt="StoryTime" src={require('../assets/full-logo.png')} className={styles.logo} />
             </div>
             <div className={styles.leftButtonContainer}>
-                <button className={styles.homeButton}><Link style={buttonStyle} to='/'>{Page === Dashboard ? <strong>Home</strong> : 'Home'}</Link></button>
-                <button className={styles.authorButton}><Link style={buttonStyle} to='/u/users'>{Page === Authors? <strong>Authors</strong> : 'Authors'}</Link></button>
-                <button className={styles.profileButton}><Link style={buttonStyle} to={'/u/' + userID}>{Page === Profile && isProfile? <strong>Profile</strong> : 'Profile'}</Link></button>
-                {/* <button className={styles.profileButton}><Link style={buttonStyle} to={'/u/' + userID}>Profile</Link></button> */}
+                <button className={styles.headerButton}><Link style={buttonStyle} to='/'>{Page === Dashboard ? <strong>Home</strong> : 'Home'}</Link></button>
+                <button className={styles.headerButton}><Link style={buttonStyle} to='/u/users'>{Page === Authors? <strong>Authors</strong> : 'Authors'}</Link></button>
+                <button className={styles.headerButton}><Link style={buttonStyle} to={'/u/' + userID}>{Page === Profile && isProfile? <strong>Profile</strong> : 'Profile'}</Link></button>
             </div>
             <div className={styles.buttonContainer}>
                 <div className={styles.logoutButtonContainer}>
