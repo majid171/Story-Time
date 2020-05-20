@@ -5,6 +5,7 @@ import AuthHeader from './authHeader';
 import * as Constants from '../constants';
 import StoryItem from './storyItem';
 import moment from 'moment';
+import { Modal } from 'react-bootstrap';
 
 
 const Profile = ({ setAuth, match: { params: { id } } }) => {
@@ -21,6 +22,9 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     const [loggedUser, setLoggedUser] = useState("");
     const [showFollowButton, setShowFollowButton] = useState(false);
     const [doesFollow, setDoesFollow] = useState();
+    const [open, setOpen] = useState(false);
+    const [modalText, setModalText] = useState("");
+    const [selectedModalData, setSelectedModalData] = useState([]);
 
     useEffect(() => {
         getInfo();
@@ -106,7 +110,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
         if (!loading && typeof storyList.map !== 'undefined') {
             return (
                 storyList.map((story, index) => (
-                    <StoryItem key={index} story={story} handleClick={() => handleClick(story)} handleLike={() => handleLike(story)} isFeatured={false}></StoryItem>
+                    <StoryItem hasAuthorLink={false} key={index} story={story} handleClick={() => handleClick(story)} handleLike={() => handleLike(story)} isFeatured={false}></StoryItem>
                 ))
             );
         }
@@ -134,66 +138,84 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
         }
     }
 
-    if(valid === false){
-        return(<Redirect to={{ pathname: '/404' }} />);
-    }
-    else if(loading){
-        return(<div></div>);
-    }
-    else{
-        return(
-            <div className={styles.container}>
-            <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser} isProfile={!showFollowButton}></AuthHeader></div>
-            <div className={styles.storyContainer}>
-                <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser ? 'your' : first} stories</h5>
-                {renderStoryList()}
-            </div>
-            <div className={styles.middleContainer}>
-                <div className={styles.profileContainer}>
-                    <div className={styles.profileInfo}>
-                        <h1 style={{ fontWeight: 40, color: "#444444", margin: 10 }}>{first} {last}</h1>
-                        <p style={{ color: "#A9A9A9", marginLeft: 30 }}>Joined {timeSince(createdDate)} <br></br>Stories: {storyCount}</p>
-                    </div>
-                    <div className={styles.profileButtons}>
-                        <button className={styles.infoButton}>Followers</button>
-                        <button className={styles.infoButton}>Following</button>
-                        {/* {showFollowButton? <button className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>: ''} */}
-                        {<button style={showFollowButton ? {} : { display: "none" }} className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>}
-                    </div>
-                </div>
-                <div className={styles.storyBodyContainer}>
+    const handleOnOpen = (e) => {
+        setModalText(e);
 
-                </div>
-            </div>
-        </div>
+        if(e === 'Followers'){
+            setSelectedModalData(followerList);
+        }
+        else{
+            setSelectedModalData(followingList);
+        }
+
+        setOpen(true);
+    }
+
+    const handleOnHide = () => {
+        setOpen(false);
+    }
+
+    const renderAuthors = () =>{
+        if(selectedModalData.length === 0) return;
+        console.log(selectedModalData);
+        return (
+            selectedModalData.map((author, index) => (
+                <div className={styles.authorListItem} key={index}><a href={'/u/' + author.friend_id}>{author.first_name} {author.last_name}</a></div>
+            ))
         );
     }
 
-    // return (valid === false ? <Redirect to={{ pathname: '/404' }} /> :
-    //     <div className={styles.container}>
-    //         <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser}></AuthHeader></div>
-    //         <div className={styles.storyContainer}>
-    //             <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser ? 'your' : first} stories</h5>
-    //             {renderStoryList()}
-    //         </div>
-    //         <div className={styles.middleContainer}>
-    //             <div className={styles.profileContainer}>
-    //                 <div className={styles.profileInfo}>
-    //                     <h1 style={{ fontWeight: 40, color: "#444444", margin: 10 }}>{first} {last}</h1>
-    //                     <p style={{ color: "#A9A9A9", marginLeft: 30 }}>Joined {timeSince(createdDate)} <br></br>Stories: {storyCount}</p>
-    //                 </div>
-    //                 <div className={styles.profileButtons}>
-    //                     <button className={styles.infoButton}>Followers</button>
-    //                     <button className={styles.infoButton}>Following</button>
-    //                     {<button style={showFollowButton ? {} : { display: "none" }} className={doesFollow? styles.unFollowButton: styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>}
-    //                 </div>
-    //             </div>
-    //             <div className={styles.storyBodyContainer}>
+    if (valid === false) {
+        return (<Redirect to={{ pathname: '/404' }} />);
+    }
+    else if (loading) {
+        return (<div></div>);
+    }
+    else {
+        return (
+            <div className={styles.container}>
+                <div className={styles.headerContainer}><AuthHeader setAuth={setAuth} Page={Profile} userID={loggedUser} isProfile={!showFollowButton}></AuthHeader></div>
+                <div className={styles.storyContainer}>
+                    <h5 style={{ marginTop: 10, textAlign: "center" }}>Check out {id === loggedUser ? 'your' : first} stories</h5>
+                    {renderStoryList()}
+                </div>
+                <div className={styles.middleContainer}>
+                    <div className={styles.profileContainer}>
+                        <div className={styles.profileInfo}>
+                            <h1 style={{ fontWeight: 40, color: "#444444", margin: 10 }}>{first} {last}</h1>
+                            <p style={{ color: "#A9A9A9", marginLeft: 30 }}>Joined {timeSince(createdDate)} <br></br>Stories: {storyCount}</p>
+                        </div>
+                        <div className={styles.profileButtons}>
+                            <button onClick={() => handleOnOpen('Followers')} className={styles.infoButton}>Followers</button>
+                            <button onClick={() => handleOnOpen('Following')} className={styles.infoButton}>Following</button>
+                            {<button style={showFollowButton ? {} : { display: "none" }} className={doesFollow ? styles.unFollowButton : styles.followButton} onClick={togglefollow}>{doesFollow ? "following" : "follow"}</button>}
+                        </div>
 
-    //             </div>
-    //         </div>
-    //     </div>
-    // );
+                        <Modal
+                            size="sm"
+                            animation={false}
+                            show={open}
+                            onHide={handleOnHide}
+                            centered
+                        >
+                            <Modal.Header>
+                                <Modal.Title>{modalText}</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <div className={styles.modalContainer}>
+                                    {renderAuthors()}
+                                </div>
+                            </Modal.Body>
+                        </Modal>
+
+                    </div>
+                    <div className={styles.storyBodyContainer}>
+
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Profile;
