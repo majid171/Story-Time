@@ -25,10 +25,18 @@
     font-family: Arial;
 }
 
-.author{
+.authorButton{
     font-size: 15px;
     color: #A9A9A9;
     padding-left: 35px;
+    background-color: white;
+    box-shadow: none;
+    outline: none;
+    border: none;
+}
+
+.authorButton:focus{
+    display: none;
 }
 
 .bottomArea{

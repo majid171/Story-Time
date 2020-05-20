@@ -26,7 +26,7 @@ const Dashboard = ({ setAuth }) => {
         getInfo();
     }, []);
 
-    useEffect(() =>{
+    useEffect(() => {
         getFeaturedStory();
     }, []);
 
@@ -34,6 +34,7 @@ const Dashboard = ({ setAuth }) => {
     useEffect(() => {
         if (userID === '') return;
         getStoryList();
+
     }, [userID]);
 
     const getStoryList = async () => {
@@ -49,8 +50,10 @@ const Dashboard = ({ setAuth }) => {
                 .then((res) => {
                     return res.json();
                 }).then((data) => {
-                    if(data) setStoryList(data);
+                    if (data) setStoryList(data);
                 });
+
+            console.log(storyList);
         } catch (error) {
             console.error(error.message);
         }
@@ -84,19 +87,19 @@ const Dashboard = ({ setAuth }) => {
         if (typeof storyList.map !== 'undefined') {
             return (
                 storyList.map((story, index) => (
-                    <StoryItem key={index} story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story, false)} isFeatured={false}></StoryItem>
+                    <StoryItem hasAuthorLink={true} key={index} story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story, false)} isFeatured={false}></StoryItem>
                 ))
             );
         }
     }
 
-    const renderFeaturedStory = () =>{
-        if(!featuredStory[0]) return;
+    const renderFeaturedStory = () => {
+        if (!featuredStory[0]) return;
         const story = featuredStory[0];
-        return(<StoryItem story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story, true)} isFeatured={true}></StoryItem>);
+        return (<StoryItem story={story} handleClick={() => handleStoryClick(story)} handleLike={() => likeStory(story, true)} isFeatured={true}></StoryItem>);
     }
 
-    const getFeaturedStory = async() =>{
+    const getFeaturedStory = async () => {
         try {
             const url = Constants.backendURL + '/story/getFeaturedStory';
             const res = await fetch(url, {
@@ -176,37 +179,37 @@ const Dashboard = ({ setAuth }) => {
             });
 
             const parseRes = await res.json();
-            
-            if(!isFeatured){
+
+            if (!isFeatured) {
                 let newStoryList = storyList;
-            
-                for(var i = 0; i < storyList.length; i++){
-                    if(storyList[i].story_id === story.story_id){
-                        if(parseRes === 'liked'){
+
+                for (var i = 0; i < storyList.length; i++) {
+                    if (storyList[i].story_id === story.story_id) {
+                        if (parseRes === 'liked') {
                             storyList[i].likes = storyList[i].likes + 1;
                         }
-                        else{
+                        else {
                             storyList[i].likes = storyList[i].likes - 1;
                         }
                         break;
                     }
                 }
-    
+
                 setStoryList([...newStoryList]);
             }
-            else{
+            else {
                 let featured = featuredStory;
                 console.log(featured);
-                if(parseRes ==='liked'){
+                if (parseRes === 'liked') {
                     featured[0].likes = featured[0].likes + 1;
                 }
-                else{
+                else {
                     featured[0].likes = featured[0].likes - 1;
                 }
-                
+
                 setFeaturedStory([...featured]);
             }
-            
+
         } catch (error) {
             console.error(error.message);
         }

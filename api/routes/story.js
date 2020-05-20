@@ -68,7 +68,7 @@ router.get('/getStoryList', authorization, async (req, res) => {
         
         if(!result.length) res.json('No stories found');
 
-        let query = "SELECT s.*, u.first_name, u.last_name FROM stories s JOIN users u on u.user_id = s.user_id WHERE s.user_id IN (";
+        let query = "SELECT s.*, u.user_id, u.first_name, u.last_name FROM stories s JOIN users u on u.user_id = s.user_id WHERE s.user_id IN (";
 
         for (var i = 0; i < result.length; i++) {
             query += '\'' + result[i] + '\'';
