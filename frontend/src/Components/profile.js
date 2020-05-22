@@ -25,6 +25,9 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     const [open, setOpen] = useState(false);
     const [modalText, setModalText] = useState("");
     const [selectedModalData, setSelectedModalData] = useState([]);
+    const [showStory, setShowStory] = useState(false);
+    const [selectedStoryBody, setSelectedStoryBody] = useState("");
+    const [selectedStoryTitle, setSelectedStoryTitle] = useState("");
 
     useEffect(() => {
         getInfo();
@@ -64,10 +67,10 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
         return (moment(date).fromNow());
     }
 
-
-
-    const handleClick = () => {
-
+    const handleClick = (story) => {
+        setSelectedStoryBody(story.body);
+        setSelectedStoryTitle(story.title);
+        setShowStory(true);
     }
 
     const handleLike = async (story) => {
@@ -141,10 +144,10 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     const handleOnOpen = (e) => {
         setModalText(e);
 
-        if(e === 'Followers'){
+        if (e === 'Followers') {
             setSelectedModalData(followerList);
         }
-        else{
+        else {
             setSelectedModalData(followingList);
         }
 
@@ -155,8 +158,8 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
         setOpen(false);
     }
 
-    const renderAuthors = () =>{
-        if(selectedModalData.length === 0) return;
+    const renderAuthors = () => {
+        if (selectedModalData.length === 0) return;
         console.log(selectedModalData);
         return (
             selectedModalData.map((author, index) => (
@@ -207,11 +210,20 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                                 </div>
                             </Modal.Body>
                         </Modal>
-
                     </div>
-                    <div className={styles.storyBodyContainer}>
+                    {!showStory ? '' : (<div className={styles.selectedStoryContainer}>
+                        <div className={styles.selectedStoryHeader}>
+                            <h5>{selectedStoryTitle}</h5>
+                            <div className={styles.subHeader}>
+                                <span style={{ color: '#444444', fontSize: '13px' }}><i>By: {first} {last}</i></span>
+                            </div>
+                        </div>
+                        <hr></hr>
+                        <div className={styles.selectedStoryBody}>
+                            {selectedStoryBody}
+                        </div>
+                    </div>)}
 
-                    </div>
                 </div>
             </div>
         );
