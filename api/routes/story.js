@@ -74,7 +74,7 @@ router.get('/getStoryList', authorization, async (req, res) => {
             }
         }
         query += ") ORDER BY s.publish_date DESC";
-        console.log(query);
+
         const myRes = await pool.query(query);
         const rows = myRes.rows;
         res.json(rows);
@@ -106,9 +106,6 @@ router.post('/toggleLike', authorization, async (req, res) => {
             await pool.query('UPDATE stories SET likes = $1 WHERE story_id = $2', [currentLikes - 1, story_id]);
             res.status(200).json('unliked');
         }
-
-        
-
     } catch (error) {
         console.error(error);
         res.status(500).json('Server Error')

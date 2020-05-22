@@ -52,8 +52,6 @@ const Dashboard = ({ setAuth }) => {
                 }).then((data) => {
                     if (data) setStoryList(data);
                 });
-
-            console.log(storyList);
         } catch (error) {
             console.error(error.message);
         }
@@ -199,7 +197,6 @@ const Dashboard = ({ setAuth }) => {
             }
             else {
                 let featured = featuredStory;
-                console.log(featured);
                 if (parseRes === 'liked') {
                     featured[0].likes = featured[0].likes + 1;
                 }
