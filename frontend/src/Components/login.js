@@ -84,7 +84,6 @@ const Login = ({ setAuth }) => {
                     <div className={!showAlert? styles.hiddenAlert : styles.visibleAlert}>
                         {error}
                     </div>
-                    {/* <a href="#" className={styles.forgot}>Forgot Password?</a> */}
                     <span className={styles.registerText}>
                         Don't have an account?
                         <a href={Constants.frontendURL + '/register'} > Sign Up</a>

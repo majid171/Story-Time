@@ -28,7 +28,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     const [selectedStoryBody, setSelectedStoryBody] = useState("");
     const [selectedStoryID, setSelectedStoryID] = useState("");
     const [selectedStoryTitle, setSelectedStoryTitle] = useState("");
-
+    
     useEffect(() => {
         getInfo();
         setShowFollowButton(id !== loggedUser ? true : false);
@@ -68,14 +68,13 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     }
 
     const handleClick = (story) => {
-        console.log(story);
         setSelectedStoryBody(story.body);
         setSelectedStoryTitle(story.title);
         setSelectedStoryID(story.story_id);
         setShowStory(true);
     }
 
-    const deleteStory = async() =>{
+    const deleteStory = async () => {
         try {
             const url = Constants.backendURL + '/story/delete';
             const res = await fetch(url, {
@@ -87,7 +86,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                 })
             });
 
-            if(res.status === 200){
+            if (res.status === 200) {
                 setSelectedStoryID("");
                 setSelectedStoryTitle("");
                 setSelectedStoryBody("");
@@ -188,7 +187,6 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
 
     const renderAuthors = () => {
         if (selectedModalData.length === 0) return;
-        console.log(selectedModalData);
         return (
             selectedModalData.map((author, index) => (
                 <div className={styles.authorListItem} key={index}><a href={'/u/' + author.friend_id}>{author.first_name} {author.last_name}</a></div>
@@ -252,7 +250,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                             {selectedStoryBody}
                         </div>
                     </div>)}
-                    
+
                 </div>
             </div>
         );

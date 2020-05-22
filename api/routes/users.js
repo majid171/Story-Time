@@ -4,7 +4,6 @@ const authorization = require('../middleware/authorization');
 
 router.get('/users', authorization, async(req, res) =>{
     try {
-
         const queryText = 'SELECT u.user_id, u.first_name, u.last_name, count(s.story_id) as story_count FROM users u left join stories s on u.user_id = s.user_id group by(u.user_id, u.first_name, u.last_name)';
         const myRes = await pool.query(queryText);
         res.json(myRes.rows);
@@ -38,8 +37,6 @@ router.get('/:id', authorization, async(req, res) =>{
         response.story_count = myRes.rows[0].story_count;
         response.created_date = myRes.rows[0].created_date;
 
-        // myRes = await pool.query('SELECT COUNT(*) as likes_count FROM likes L WHERE L.user_id = $1', [id]);
-        // response.likes_count = myRes.rows[0].likes_count;
         myRes = await pool.query('SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2', [req.user, id]);
         response.doesFollow = myRes.rows[0]? true: false;
 
@@ -51,7 +48,6 @@ router.get('/:id', authorization, async(req, res) =>{
 
         myRes = await pool.query('select u.first_name, u.last_name, s.story_id, s.title, s.body, s.publish_date, s.likes from users u join stories s on u.user_id = s.user_id where u.user_id = $1', [id]);
         response.story_list = myRes.rows;
-        // console.log(response);
 
         res.status(200).json(response);
     } catch (error) {
@@ -64,7 +60,6 @@ router.post('/toggleFollow', authorization, async(req, res) =>{
     try {
 
         const {logged_id, friend_id} = req.body;
-        console.log(req.body);
 
         let friendship = await pool.query("SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2", [logged_id, friend_id]);
 
