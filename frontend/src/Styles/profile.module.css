@@ -163,3 +163,19 @@
 .selectedStoryBody::-webkit-scrollbar{
     display: none;
 }
+
+.deleteButton{
+    background-color: white;
+    box-shadow: none;
+    border: none;
+    color: red;
+    font-size: 13px;
+}
+
+.deleteButton:hover{
+    text-decoration: underline;
+}
+
+.deleteButton:focus{
+    outline: none;
+}
