@@ -7,7 +7,6 @@ import StoryItem from './storyItem';
 import moment from 'moment';
 import { Modal } from 'react-bootstrap';
 
-
 const Profile = ({ setAuth, match: { params: { id } } }) => {
 
     const [loading, setLoading] = useState(true);
@@ -27,6 +26,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     const [selectedModalData, setSelectedModalData] = useState([]);
     const [showStory, setShowStory] = useState(false);
     const [selectedStoryBody, setSelectedStoryBody] = useState("");
+    const [selectedStoryID, setSelectedStoryID] = useState("");
     const [selectedStoryTitle, setSelectedStoryTitle] = useState("");
 
     useEffect(() => {
@@ -68,9 +68,37 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     }
 
     const handleClick = (story) => {
+        console.log(story);
         setSelectedStoryBody(story.body);
         setSelectedStoryTitle(story.title);
+        setSelectedStoryID(story.story_id);
         setShowStory(true);
+    }
+
+    const deleteStory = async() =>{
+        try {
+            const url = Constants.backendURL + '/story/delete';
+            const res = await fetch(url, {
+                method: 'POST',
+                credentials: 'include',
+                headers: { "Content-type": "application/json" },
+                body: JSON.stringify({
+                    story_id: selectedStoryID
+                })
+            });
+
+            if(res.status === 200){
+                setSelectedStoryID("");
+                setSelectedStoryTitle("");
+                setSelectedStoryBody("");
+                setShowStory(false);
+
+                const tempStoryList = storyList.filter(story => story.story_id !== selectedStoryID);
+                setStoryList([...tempStoryList]);
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     const handleLike = async (story) => {
@@ -217,13 +245,14 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                             <div className={styles.subHeader}>
                                 <span style={{ color: '#444444', fontSize: '13px' }}><i>By: {first} {last}</i></span>
                             </div>
+                            <button onClick={deleteStory} className={styles.deleteButton}>Delete</button>
                         </div>
                         <hr></hr>
                         <div className={styles.selectedStoryBody}>
                             {selectedStoryBody}
                         </div>
                     </div>)}
-
+                    
                 </div>
             </div>
         );

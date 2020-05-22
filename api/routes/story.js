@@ -5,7 +5,6 @@ const authorization = require('../middleware/authorization');
 router.post('/createStory', authorization, async (req, res) => {
     try {
         const { userID, createdStoryTitle, createdStoryBody } = req.body;
-        // console.log(createdStoryBody);
 
         await pool.query("INSERT INTO STORIES(user_id, title, body) VALUES($1, $2, $3)",
             [userID, createdStoryTitle, createdStoryBody]);
@@ -19,21 +18,19 @@ router.post('/createStory', authorization, async (req, res) => {
     }
 });
 
-router.post('/deleteStory', authorization, async (req, res) => {
+router.post('/delete', authorization, async (req, res) => {
     try {
-        const { story_id, user_id } = req.body;
+        const user_id = req.user;
+        const {story_id} = req.body;
 
-        const author_id = await pool.query("SELECT user_id FROM stories WHERE story_id = $1", [story_id])
-
-        if (author_id.rows[0].user_id !== user_id) {
-            res.sendStatus(401).json('Cannot delete someone else\'s story');
+        const canDelete = await pool.query('SELECT * FROM stories WHERE story_id = $1 AND user_id = $2', [story_id, user_id]);
+        if(!canDelete.rows[0]){
+            return res.status(401).json('Cannot delete story');
         }
 
         await pool.query('DELETE FROM stories WHERE story_id = $1', [story_id]);
 
-        res.json({
-            message: 'Deleted Story'
-        });
+        res.status(200).json('Story Deleted');
 
     } catch (error) {
         console.error(error.message);

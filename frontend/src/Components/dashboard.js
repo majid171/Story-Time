@@ -183,13 +183,13 @@ const Dashboard = ({ setAuth }) => {
             if (!isFeatured) {
                 let newStoryList = storyList;
 
-                for (var i = 0; i < storyList.length; i++) {
-                    if (storyList[i].story_id === story.story_id) {
+                for (var i = 0; i < newStoryList.length; i++) {
+                    if (newStoryList[i].story_id === story.story_id) {
                         if (parseRes === 'liked') {
-                            storyList[i].likes = storyList[i].likes + 1;
+                            newStoryList[i].likes = newStoryList[i].likes + 1;
                         }
                         else {
-                            storyList[i].likes = storyList[i].likes - 1;
+                            newStoryList[i].likes = newStoryList[i].likes - 1;
                         }
                         break;
                     }
