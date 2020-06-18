@@ -36,6 +36,9 @@
 
 .profileInfo{
     /* background-color: lightcoral; */
+    /* word-wrap: break-word; */
+    font-size: small;
+    min-width: 100px;
 }
 
 .profileButtons{

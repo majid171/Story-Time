@@ -28,10 +28,12 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     const [selectedStoryBody, setSelectedStoryBody] = useState("");
     const [selectedStoryID, setSelectedStoryID] = useState("");
     const [selectedStoryTitle, setSelectedStoryTitle] = useState("");
+    const [showDeleteButton, setShowDeleteButton] = useState(false);
     
     useEffect(() => {
         getInfo();
         setShowFollowButton(id !== loggedUser ? true : false);
+        setShowDeleteButton(id === loggedUser? true: false);
     }, [id, loggedUser]);
 
     const getInfo = async () => {
@@ -243,7 +245,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
                             <div className={styles.subHeader}>
                                 <span style={{ color: '#444444', fontSize: '13px' }}><i>By: {first} {last}</i></span>
                             </div>
-                            <button onClick={deleteStory} className={styles.deleteButton}>Delete</button>
+                            {showDeleteButton? <button onClick={deleteStory} className={styles.deleteButton}>Delete</button>: ''}
                         </div>
                         <hr></hr>
                         <div className={styles.selectedStoryBody}>
