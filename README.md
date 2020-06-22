@@ -3,7 +3,7 @@ A modern day social media like app for authors. Authors have the ability to shar
 
 ### Implementation
 The application is developed using the PERN stack. The PERN stack consists of ...
-* [Postgres SQL]([https://www.postgresql.org/](https://www.postgresql.org/))
+* [PostgreSQL]([https://www.postgresql.org/](https://www.postgresql.org/))
 * [React]([https://reactjs.org/](https://reactjs.org/))
 * [Express]([https://expressjs.com/](https://expressjs.com/))
 * [Node]([https://nodejs.org/en/](https://nodejs.org/en/))
