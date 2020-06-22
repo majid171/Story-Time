@@ -37,7 +37,8 @@ const Login = ({ setAuth }) => {
                 },
                 credentials: 'include',
                 body: JSON.stringify(body),
-            });
+            }).catch(err => console.error(err));
+
             const parsedResponse = await response.json();
             if (response.status === 200) {
                 setAuth(true);

@@ -58,13 +58,16 @@ router.get('/getStoryList', authorization, async (req, res) => {
 
         if (!user_id || user_id === '') {
             res.sendStatus(401).json('ID blank');
+            return;
         }
 
         const friendIDS = await pool.query('SELECT friend_id FROM friendship WHERE user_id = $1', [user_id]);
-        const result = friendIDS.rows.map(a => a.friend_id);
         
-        if(!result.length) res.json('No stories found');
-
+        const result = friendIDS.rows.map(a => a.friend_id);
+        if(result.length === 0){ 
+            res.status(200).json('No stories found');
+            return;
+        }
         let query = "SELECT s.*, u.user_id, u.first_name, u.last_name FROM stories s JOIN users u on u.user_id = s.user_id WHERE s.user_id IN (";
 
         for (var i = 0; i < result.length; i++) {
@@ -77,8 +80,7 @@ router.get('/getStoryList', authorization, async (req, res) => {
 
         const myRes = await pool.query(query);
         const rows = myRes.rows;
-        res.json(rows);
-
+        res.status(200).json(rows);
     } catch (error) {
         console.error(error.message);
         res.status(500).json('Server Error');
