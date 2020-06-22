@@ -21,7 +21,6 @@ const Dashboard = ({ setAuth }) => {
     const [showStoryDiv, setShowStoryDiv] = useState(false);
     const [featuredStory, setFeaturedStory] = useState([]);
 
-    // Get the user info
     useEffect(() => {
         getInfo();
     }, []);
@@ -30,7 +29,6 @@ const Dashboard = ({ setAuth }) => {
         getFeaturedStory();
     }, []);
 
-    // Get the story list
     useEffect(() => {
         if (userID === '') return;
         getStoryList();
@@ -42,8 +40,11 @@ const Dashboard = ({ setAuth }) => {
 
             const url = Constants.backendURL + '/story/getStoryList';
 
-            await fetch(url, {
+            const response = await fetch(url, {
                 method: 'GET',
+                headers: {
+                    "Content-type": "application/json"
+                },
                 credentials: 'include',
 
             })
@@ -51,7 +52,7 @@ const Dashboard = ({ setAuth }) => {
                     return res.json();
                 }).then((data) => {
                     if (data) setStoryList(data);
-                });
+                }).catch(err => console.error(err));
         } catch (error) {
             console.error(error.message);
         }
@@ -62,6 +63,9 @@ const Dashboard = ({ setAuth }) => {
             const url = Constants.backendURL + '/dashboard';
             const response = await fetch(url, {
                 method: "GET",
+                headers: {
+                    "Content-type": "application/json"
+                },
                 credentials: 'include'
             });
 
@@ -102,6 +106,9 @@ const Dashboard = ({ setAuth }) => {
             const url = Constants.backendURL + '/story/getFeaturedStory';
             const res = await fetch(url, {
                 method: 'GET',
+                headers: {
+                    "Content-type": "application/json"
+                },
                 credentials: 'include'
             });
 
