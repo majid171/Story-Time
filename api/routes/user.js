@@ -7,6 +7,4 @@ router.get('/', authorization, userController.getLoggedInUser);
 router.get('/users', authorization, userController.getUserList);
 router.get('/:id', authorization, userController.getUserProfileByID);
 
-router.post('/', authorization, userController.toggleFollow);
-
 module.exports = router;

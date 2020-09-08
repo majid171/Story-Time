@@ -112,3 +112,23 @@ exports.getFeaturedStory = async (req, res, next) => {
         res.status(500).json('Server Error');
     }
 };
+
+exports.toggleFollow = async (req, res, next) => {
+    try {
+
+        const { friend_id } = req.body;
+
+        let friendship = await pool.query("SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2", [req.user, friend_id]);
+
+        if (friendship.rows[0]) {
+            await pool.query('DELETE FROM friendship WHERE user_id = $1 AND friend_id = $2', [req.user, friend_id]);
+            res.status(200).json('Unfollow');
+        }
+        else {
+            await pool.query('INSERT INTO friendship VALUES($1, $2)', [req.user, friend_id]);
+            res.status(200).json('Follow');
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
+};

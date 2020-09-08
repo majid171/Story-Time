@@ -149,7 +149,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
     }
 
     const togglefollow = async () => {
-        const url = Constants.backendURL + '/u/toggleFollow';
+        const url = Constants.backendURL + '/api/toggleFollow';
 
         const res = await fetch(url, {
             method: 'POST',

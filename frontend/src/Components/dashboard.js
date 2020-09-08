@@ -166,7 +166,7 @@ const Dashboard = ({ setAuth }) => {
 
     const likeStory = async (story, isFeatured) => {
         try {
-            const url = Constants.backendURL + '/story/toggleLike';
+            const url = Constants.backendURL + '/api/story/toggleLike';
             const story_id = story.story_id;
             const user_id = userID;
 

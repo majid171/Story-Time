@@ -7,6 +7,7 @@ router.get('/story/featured', authorization, apiController.getFeaturedStory);
 
 router.post('/story', authorization, apiController.createStory);
 router.post('/story/toggleLike', authorization, apiController.toggleLike);
+router.post('/toggleFollow', authorization, apiController.toggleFollow);
 
 router.delete('/story', authorization, apiController.deleteStory);
 

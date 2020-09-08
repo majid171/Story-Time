@@ -21,26 +21,6 @@ exports.getUserList = async (req, res, next) => {
     }
 };
 
-exports.toggleFollow = async (req, res, next) => {
-    try {
-
-        const { friend_id } = req.body;
-
-        let friendship = await pool.query("SELECT * FROM friendship WHERE user_id = $1 AND friend_id = $2", [req.user, friend_id]);
-
-        if (friendship.rows[0]) {
-            await pool.query('DELETE FROM friendship WHERE user_id = $1 AND friend_id = $2', [req.user, friend_id]);
-            res.status(200).json('Unfollow');
-        }
-        else {
-            await pool.query('INSERT INTO friendship VALUES($1, $2)', [req.user, friend_id]);
-            res.status(200).json('Follow');
-        }
-    } catch (error) {
-        console.error(error.message);
-    }
-};
-
 exports.getUserProfileByID = async (req, res, next) => {
     try {
         const id = req.params.id;
