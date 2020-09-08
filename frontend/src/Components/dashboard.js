@@ -38,7 +38,7 @@ const Dashboard = ({ setAuth }) => {
     const getStoryList = async () => {
         try {
 
-            const url = Constants.backendURL + '/story/getStoryList';
+            const url = Constants.backendURL + '/api/story';
 
             const response = await fetch(url, {
                 method: 'GET',
@@ -60,7 +60,7 @@ const Dashboard = ({ setAuth }) => {
 
     const getInfo = async () => {
         try {
-            const url = Constants.backendURL + '/dashboard';
+            const url = Constants.backendURL + '/u';
             const response = await fetch(url, {
                 method: "GET",
                 headers: {
@@ -103,7 +103,7 @@ const Dashboard = ({ setAuth }) => {
 
     const getFeaturedStory = async () => {
         try {
-            const url = Constants.backendURL + '/story/getFeaturedStory';
+            const url = Constants.backendURL + '/api/story/featured';
             const res = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -125,7 +125,7 @@ const Dashboard = ({ setAuth }) => {
         setOpen(false);
         setCreatedStoryBody(createdStoryBody.trim());
         try {
-            const url = Constants.backendURL + '/story/createStory';
+            const url = Constants.backendURL + '/api/story';
             await fetch(url, {
                 method: 'POST',
                 credentials: 'include',
@@ -133,7 +133,6 @@ const Dashboard = ({ setAuth }) => {
                     "Content-type": "application/json"
                 },
                 body: JSON.stringify({
-                    userID,
                     createdStoryTitle,
                     createdStoryBody
                 })

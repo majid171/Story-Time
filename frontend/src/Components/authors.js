@@ -16,7 +16,7 @@ const Authors = ({ setAuth }) => {
 
     const getInfo = async () => {
         try {
-            const url = Constants.backendURL + '/dashboard';
+            const url = Constants.backendURL + '/u';
             const response = await fetch(url, {
                 method: "GET",
                 credentials: 'include'

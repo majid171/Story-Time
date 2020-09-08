@@ -78,9 +78,9 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
 
     const deleteStory = async () => {
         try {
-            const url = Constants.backendURL + '/story/delete';
+            const url = Constants.backendURL + '/api/story';
             const res = await fetch(url, {
-                method: 'POST',
+                method: 'DELETE',
                 credentials: 'include',
                 headers: { "Content-type": "application/json" },
                 body: JSON.stringify({
@@ -104,7 +104,7 @@ const Profile = ({ setAuth, match: { params: { id } } }) => {
 
     const handleLike = async (story) => {
         try {
-            const url = Constants.backendURL + '/story/toggleLike';
+            const url = Constants.backendURL + '/api/toggleLike';
             const res = await fetch(url, {
                 method: 'POST',
                 credentials: 'include',
